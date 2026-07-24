@@ -1,0 +1,169 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold text-primary">
+                My Complaint History
+            </h2>
+
+            <p class="text-muted">
+                View all complaints you have submitted.
+            </p>
+        </div>
+
+        <a href="{{ url_for('complaint.submit_complaint') }}"
+           class="btn btn-primary">
+
+            <i class="bi bi-plus-circle-fill"></i>
+            Submit Complaint
+
+        </a>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            {% if complaints %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Complaint No.</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Date Submitted</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for complaint in complaints %}
+
+                        <tr>
+
+                            <td>
+                                {{ complaint.complaint_number }}
+                            </td>
+
+                            <td>
+                                {{ complaint.title }}
+                            </td>
+
+                            <td>
+                                {% if complaint.category %}
+                                    {{ complaint.category.name }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-info">
+
+                                    {{ complaint.priority }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                {% if complaint.status == "Resolved" %}
+
+                                    <span class="badge bg-success">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% elif complaint.status == "Pending" %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% elif complaint.status == "Escalated" %}
+
+                                    <span class="badge bg-danger">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ complaint.created_at.strftime("%d %b %Y") }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="text-center py-5">
+
+                <h3>No complaints found.</h3>
+
+                <p class="text-muted">
+
+                    You have not submitted any complaints yet.
+
+                </p>
+
+                <a href="{{ url_for('complaint.submit_complaint') }}"
+                   class="btn btn-primary">
+
+                    Submit Your First Complaint
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

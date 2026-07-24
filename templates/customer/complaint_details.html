@@ -1,0 +1,228 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3>
+
+                Complaint Details
+
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tr>
+
+                    <th width="220">
+
+                        Reference Number
+
+                    </th>
+
+                    <td>
+
+                        {{ complaint.reference_number }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Title
+
+                    </th>
+
+                    <td>
+
+                        {{ complaint.title }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Description
+
+                    </th>
+
+                    <td>
+
+                        {{ complaint.description }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Category
+
+                    </th>
+
+                    <td>
+
+                        {{ complaint.category }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Priority
+
+                    </th>
+
+                    <td>
+
+                        <span class="badge bg-warning text-dark">
+
+                            {{ complaint.priority }}
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Status
+
+                    </th>
+
+                    <td>
+
+                        {% if complaint.status == "Resolved" %}
+
+                            <span class="badge bg-success">
+
+                                {{ complaint.status }}
+
+                            </span>
+
+                        {% elif complaint.status == "Pending" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                {{ complaint.status }}
+
+                            </span>
+
+                        {% elif complaint.status == "Escalated" %}
+
+                            <span class="badge bg-danger">
+
+                                {{ complaint.status }}
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-primary">
+
+                                {{ complaint.status }}
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Date Submitted
+
+                    </th>
+
+                    <td>
+
+                        {{ complaint.created_at.strftime("%d %B %Y %I:%M %p") }}
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+            <hr>
+
+            <h4>
+
+                Complaint Evidence
+
+            </h4>
+
+            {% if complaint.attachment %}
+
+                <a href="{{ url_for('static',
+                    filename='uploads/' + complaint.attachment) }}"
+                    target="_blank">
+
+                    <img
+
+                        src="{{ url_for('static',
+                        filename='uploads/' + complaint.attachment) }}"
+
+                        class="img-fluid rounded shadow"
+
+                        style="max-height:450px;">
+
+                </a>
+
+            {% else %}
+
+                <div class="alert alert-secondary">
+
+                    No image was attached to this complaint.
+
+                </div>
+
+            {% endif %}
+
+            <hr>
+
+            <a
+
+                href="{{ url_for('complaint.history') }}"
+
+                class="btn btn-primary">
+
+                <i class="bi bi-arrow-left"></i>
+
+                Back to Complaint History
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

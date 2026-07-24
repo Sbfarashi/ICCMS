@@ -1,0 +1,441 @@
+/* ==========================================
+   DASHBOARD
+========================================== */
+
+.dashboard{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:30px;
+
+}
+
+/* ==========================================
+   PAGE HEADER
+========================================== */
+
+.dashboard-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:10px;
+
+}
+
+.dashboard-header h2{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+.dashboard-header p{
+
+    color:var(--muted);
+
+    margin-top:5px;
+
+}
+
+/* ==========================================
+   STATISTICS CARDS
+========================================== */
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+
+    gap:20px;
+
+}
+
+.stat-card{
+
+    background:#fff;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    box-shadow:var(--shadow);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    transition:.3s;
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.stat-info h6{
+
+    color:#6c757d;
+
+    font-size:14px;
+
+    margin-bottom:10px;
+
+}
+
+.stat-info h2{
+
+    font-size:34px;
+
+    font-weight:700;
+
+}
+
+.stat-icon{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:30px;
+
+    color:#fff;
+
+}
+
+.bg-primary{
+
+    background:#0d6efd;
+
+}
+
+.bg-success{
+
+    background:#198754;
+
+}
+
+.bg-warning{
+
+    background:#ffc107;
+
+    color:#000;
+
+}
+
+.bg-danger{
+
+    background:#dc3545;
+
+}
+
+/* ==========================================
+   CONTENT GRID
+========================================== */
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:25px;
+
+}
+
+/* ==========================================
+   CARDS
+========================================== */
+
+.dashboard-card{
+
+    background:#fff;
+
+    border-radius:15px;
+
+    box-shadow:var(--shadow);
+
+    padding:20px;
+
+}
+
+.dashboard-card h5{
+
+    margin-bottom:20px;
+
+    font-weight:600;
+
+}
+
+/* ==========================================
+   TABLES
+========================================== */
+
+.table{
+
+    margin-bottom:0;
+
+}
+
+.table thead{
+
+    background:#f8f9fa;
+
+}
+
+.table th{
+
+    border:none;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+.table td{
+
+    vertical-align:middle;
+
+}
+
+/* ==========================================
+   STATUS BADGES
+========================================== */
+
+.badge-open{
+
+    background:#0d6efd;
+
+    color:#fff;
+
+}
+
+.badge-progress{
+
+    background:#ffc107;
+
+    color:#000;
+
+}
+
+.badge-resolved{
+
+    background:#198754;
+
+    color:#fff;
+
+}
+
+.badge-closed{
+
+    background:#6c757d;
+
+    color:#fff;
+
+}
+
+.badge{
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+}
+
+/* ==========================================
+   ACTIVITY LIST
+========================================== */
+
+.activity{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-bottom:20px;
+
+}
+
+.activity-icon{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#fff;
+
+    background:#0d6efd;
+
+}
+
+.activity-content h6{
+
+    margin-bottom:3px;
+
+    font-size:15px;
+
+}
+
+.activity-content small{
+
+    color:#6c757d;
+
+}
+
+/* ==========================================
+   PROGRESS
+========================================== */
+
+.progress{
+
+    height:10px;
+
+    border-radius:30px;
+
+}
+
+.progress-bar{
+
+    border-radius:30px;
+
+}
+
+/* ==========================================
+   CHARTS
+========================================== */
+
+.chart-container{
+
+    position:relative;
+
+    height:350px;
+
+}
+
+/* ==========================================
+   QUICK ACTION BUTTONS
+========================================== */
+
+.quick-actions{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    gap:15px;
+
+}
+
+.quick-actions a{
+
+    text-decoration:none;
+
+}
+
+.quick-btn{
+
+    background:#fff;
+
+    border-radius:12px;
+
+    box-shadow:var(--shadow);
+
+    padding:25px;
+
+    text-align:center;
+
+    transition:.3s;
+
+}
+
+.quick-btn:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.quick-btn i{
+
+    font-size:40px;
+
+    color:var(--primary);
+
+    margin-bottom:12px;
+
+}
+
+.quick-btn h6{
+
+    margin:0;
+
+    color:#333;
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:992px){
+
+    .dashboard-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .dashboard-header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+    .stat-card{
+
+        flex-direction:column;
+
+        text-align:center;
+
+        gap:15px;
+
+    }
+
+}

@@ -1,0 +1,73 @@
+/*=========================================================
+ BUTTONS
+=========================================================*/
+
+.btn{
+
+    border-radius:50px;
+
+    padding:12px 24px;
+
+    font-weight:600;
+
+    transition:var(--transition);
+
+}
+
+.btn-primary{
+
+    background:var(--primary);
+
+    border:none;
+
+}
+
+.btn-primary:hover{
+
+    background:var(--primary-dark);
+
+}
+
+.btn-warning{
+
+    background:var(--orange);
+
+    border:none;
+
+    color:white;
+
+}
+
+.btn-warning:hover{
+
+    background:var(--orange-dark);
+
+}
+
+.btn-success{
+
+    border:none;
+
+}
+
+.btn-danger{
+
+    border:none;
+
+}
+
+.btn-outline-primary{
+
+    border:2px solid var(--primary);
+
+    color:var(--primary);
+
+}
+
+.btn-outline-primary:hover{
+
+    background:var(--primary);
+
+    color:white;
+
+}

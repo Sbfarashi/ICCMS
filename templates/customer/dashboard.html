@@ -1,0 +1,253 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Customer Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Welcome -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2 class="fw-bold">
+                Welcome, {{ session.get('full_name', 'Customer') }}
+            </h2>
+
+            <p class="text-muted">
+                Monitor your complaints, submit new complaints and track their progress.
+            </p>
+        </div>
+
+        <div class="col-md-4 text-md-end">
+            <a href="{{ url_for('complaint.submit_complaint') }}"
+               class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>
+                Submit Complaint
+            </a>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="bi bi-folder2-open display-5 text-primary"></i>
+
+                    <h3 class="mt-3">
+                        {{ total_complaints }}
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Total Complaints
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="bi bi-hourglass-split display-5 text-warning"></i>
+
+                    <h3 class="mt-3">
+                        {{ pending_complaints }}
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Pending
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="bi bi-check-circle display-5 text-success"></i>
+
+                    <h3 class="mt-3">
+                        {{ resolved_complaints }}
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Resolved
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="bi bi-exclamation-circle display-5 text-danger"></i>
+
+                    <h3 class="mt-3">
+                        {{ escalated_complaints }}
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Escalated
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Charts -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-8">
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    Complaint Trend
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="trendChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    Complaint Categories
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="pieChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Recent Complaints -->
+
+    <div class="card">
+
+        <div class="card-header d-flex justify-content-between">
+
+            <span>Recent Complaints</span>
+
+            <a href="{{ url_for('complaint.history') }}"
+               class="btn btn-sm btn-primary">
+
+                View All
+
+            </a>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Complaint No.</th>
+
+                            <th>Category</th>
+
+                            <th>Priority</th>
+
+                            <th>Status</th>
+
+                            <th>Date</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% if complaints %}
+
+                        {% for complaint in complaints %}
+
+                        <tr>
+
+                            <td>{{ complaint.complaint_number }}</td>
+
+                            <td>{{ complaint.category.name }}</td>
+
+                            <td>
+
+                                <span class="badge bg-warning">
+
+                                    {{ complaint.priority }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+
+                                    {{ complaint.status }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                {{ complaint.created_at.strftime("%d %b %Y") }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="5" class="text-center">
+
+                                No complaints found.
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

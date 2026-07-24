@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+
+{% block title %}
+Update Complaint
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>Update Complaint</h2>
+
+        <a href="{{ url_for('admin.complaint_details', complaint_id=complaint.id) }}"
+           class="btn btn-secondary">
+
+            Back
+
+        </a>
+
+    </div>
+
+
+    <div class="row">
+
+        <!-- Complaint Information -->
+
+        <div class="col-lg-5">
+
+            <div class="card shadow mb-4">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h5 class="mb-0">
+
+                        Complaint Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-borderless">
+
+                        <tr>
+
+                            <th width="40%">Complaint No</th>
+
+                            <td>{{ complaint.complaint_number }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Customer</th>
+
+                            <td>{{ complaint.customer.full_name }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Meter Number</th>
+
+                            <td>{{ complaint.meter_number }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Category</th>
+
+                            <td>
+
+                                {% if complaint.category %}
+
+                                    {{ complaint.category.name }}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Priority</th>
+
+                            <td>
+
+                                {% if complaint.priority == "Critical" %}
+
+                                    <span class="badge bg-danger">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% elif complaint.priority == "High" %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% elif complaint.priority == "Medium" %}
+
+                                    <span class="badge bg-info">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Status</th>
+
+                            <td>
+
+                                {{ complaint.status }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Assigned To</th>
+
+                            <td>
+
+                                {% if complaint.staff %}
+
+                                    {{ complaint.staff.full_name }}
+
+                                {% else %}
+
+                                    <span class="text-danger">
+
+                                        Not Assigned
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Update Form -->
+
+        <div class="col-lg-7">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    <h5 class="mb-0">
+
+                        Update Complaint
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {{ form.hidden_tag() }}
+
+                        <div class="mb-3">
+
+                            {{ form.status.label(class="form-label") }}
+
+                            {{ form.status(class="form-select") }}
+
+                            {% for error in form.status.errors %}
+
+                                <div class="text-danger">
+
+                                    {{ error }}
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            {{ form.resolution.label(class="form-label") }}
+
+                            {{ form.resolution(
+                                class="form-control",
+                                rows="8"
+                            ) }}
+
+                            {% for error in form.resolution.errors %}
+
+                                <div class="text-danger">
+
+                                    {{ error }}
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a href="{{ url_for('admin.complaint_details', complaint_id=complaint.id) }}"
+                               class="btn btn-secondary">
+
+                                Cancel
+
+                            </a>
+
+                            {{ form.submit(class="btn btn-success") }}
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

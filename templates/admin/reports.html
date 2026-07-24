@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+
+{% block title %}
+Complaint Reports
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>Complaint Reports & Analytics</h2>
+
+        <a href="{{ url_for('admin.dashboard') }}"
+           class="btn btn-secondary">
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+    <!-- Monthly Report -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            <h5 class="mb-0">
+
+                Monthly Complaint Report
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if monthly %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Month</th>
+
+                            <th>Total Complaints</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for row in monthly %}
+
+                        <tr>
+
+                            <td>{{ row.month }}</td>
+
+                            <td>{{ row.total }}</td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info">
+
+                No monthly report available.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- Priority Report -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-warning">
+
+            <h5 class="mb-0">
+
+                Complaints by Priority
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if priority %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Priority</th>
+
+                            <th>Total</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for row in priority %}
+
+                        <tr>
+
+                            <td>{{ row.priority }}</td>
+
+                            <td>{{ row.total }}</td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info">
+
+                No priority report available.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- Status Report -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-success text-white">
+
+            <h5 class="mb-0">
+
+                Complaints by Status
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if status %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Status</th>
+
+                            <th>Total</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for row in status %}
+
+                        <tr>
+
+                            <td>{{ row.status }}</td>
+
+                            <td>{{ row.total }}</td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info">
+
+                No status report available.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- Charts -->
+
+    <div class="row">
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white">
+
+                    Priority Distribution
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="priorityChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white">
+
+                    Status Distribution
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="statusChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Chart.js -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const priorityLabels = [
+
+{% for row in priority %}
+
+"{{ row.priority }}",
+
+{% endfor %}
+
+];
+
+const priorityData = [
+
+{% for row in priority %}
+
+{{ row.total }},
+
+{% endfor %}
+
+];
+
+const statusLabels = [
+
+{% for row in status %}
+
+"{{ row.status }}",
+
+{% endfor %}
+
+];
+
+const statusData = [
+
+{% for row in status %}
+
+{{ row.total }},
+
+{% endfor %}
+
+];
+
+new Chart(
+
+document.getElementById("priorityChart"),
+
+{
+
+type: "pie",
+
+data: {
+
+labels: priorityLabels,
+
+datasets: [
+
+{
+
+data: priorityData
+
+}
+
+]
+
+}
+
+}
+
+);
+
+new Chart(
+
+document.getElementById("statusChart"),
+
+{
+
+type: "bar",
+
+data: {
+
+labels: statusLabels,
+
+datasets: [
+
+{
+
+label: "Complaints",
+
+data: statusData
+
+}
+
+]
+
+}
+
+}
+
+);
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}
+Update Complaint
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h4 class="mb-0">
+                        Update Complaint
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="alert alert-secondary">
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <strong>Complaint No:</strong><br>
+                                {{ complaint.complaint_number }}
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <strong>Customer:</strong><br>
+                                {{ complaint.customer.full_name }}
+
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <strong>Meter Number:</strong><br>
+                                {{ complaint.meter_number }}
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <strong>Priority:</strong>
+
+                                {% if complaint.priority == "Critical" %}
+                                    <span class="badge bg-danger">
+                                        {{ complaint.priority }}
+                                    </span>
+
+                                {% elif complaint.priority == "High" %}
+                                    <span class="badge bg-warning text-dark">
+                                        {{ complaint.priority }}
+                                    </span>
+
+                                {% elif complaint.priority == "Medium" %}
+                                    <span class="badge bg-info">
+                                        {{ complaint.priority }}
+                                    </span>
+
+                                {% else %}
+                                    <span class="badge bg-secondary">
+                                        {{ complaint.priority }}
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <form method="POST">
+
+                        {{ form.hidden_tag() }}
+
+                        <div class="mb-3">
+
+                            {{ form.status.label(class="form-label") }}
+
+                            {{ form.status(class="form-select") }}
+
+                            {% for error in form.status.errors %}
+                                <div class="text-danger">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            {{ form.resolution.label(class="form-label") }}
+
+                            {{ form.resolution(
+                                class="form-control",
+                                rows="8",
+                                placeholder="Enter the work carried out, observations, replacement parts, recommendations, etc."
+                            ) }}
+
+                            {% for error in form.resolution.errors %}
+                                <div class="text-danger">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a href="{{ url_for('staff.complaint_details', complaint_id=complaint.id) }}"
+                               class="btn btn-secondary">
+
+                                Back
+
+                            </a>
+
+                            {{ form.submit(class="btn btn-success") }}
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

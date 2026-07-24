@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+
+{% block title %}
+Assign Complaint
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>
+
+            {% if complaint.staff %}
+                Reassign Complaint
+            {% else %}
+                Assign Complaint
+            {% endif %}
+
+        </h2>
+
+        <a href="{{ url_for('admin.complaint_details', complaint_id=complaint.id) }}"
+           class="btn btn-secondary">
+
+            Back
+
+        </a>
+
+    </div>
+
+    <div class="row">
+
+        <!-- Complaint Information -->
+
+        <div class="col-lg-5">
+
+            <div class="card shadow mb-4">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h5 class="mb-0">
+
+                        Complaint Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-borderless">
+
+                        <tr>
+                            <th width="40%">Complaint No</th>
+                            <td>{{ complaint.complaint_number }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Customer</th>
+                            <td>{{ complaint.customer.full_name }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ complaint.customer.email }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Phone</th>
+                            <td>{{ complaint.customer.phone }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Meter Number</th>
+                            <td>{{ complaint.meter_number }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Category</th>
+                            <td>
+
+                                {% if complaint.category %}
+
+                                    {{ complaint.category.name }}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            <th>Priority</th>
+
+                            <td>
+
+                                {% if complaint.priority == "Critical" %}
+
+                                    <span class="badge bg-danger">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% elif complaint.priority == "High" %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% elif complaint.priority == "Medium" %}
+
+                                    <span class="badge bg-info">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Status</th>
+
+                            <td>
+
+                                {{ complaint.status }}
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Assignment Form -->
+
+        <div class="col-lg-7">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    <h5 class="mb-0">
+
+                        Staff Assignment
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if complaint.staff %}
+
+                        <div class="alert alert-warning">
+
+                            <strong>Currently Assigned To:</strong>
+
+                            {{ complaint.staff.full_name }}
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="alert alert-info">
+
+                            This complaint has not yet been assigned to any staff member.
+
+                        </div>
+
+                    {% endif %}
+
+                    <form method="POST">
+
+                        {{ form.hidden_tag() }}
+
+                        <div class="mb-3">
+
+                            {{ form.staff.label(class="form-label") }}
+
+                            {{ form.staff(class="form-select") }}
+
+                            {% for error in form.staff.errors %}
+
+                                <div class="text-danger">
+
+                                    {{ error }}
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a href="{{ url_for('admin.complaint_details', complaint_id=complaint.id) }}"
+                               class="btn btn-secondary">
+
+                                Cancel
+
+                            </a>
+
+                            {% if complaint.staff %}
+
+                                <button type="submit"
+                                        class="btn btn-warning">
+
+                                    Reassign Complaint
+
+                                </button>
+
+                            {% else %}
+
+                                <button type="submit"
+                                        class="btn btn-success">
+
+                                    Assign Complaint
+
+                                </button>
+
+                            {% endif %}
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,423 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ========================================= -->
+<!-- HERO SECTION -->
+<!-- ========================================= -->
+
+<section class="hero-section d-flex align-items-center text-white"
+         style="min-height:100vh;
+         background:linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+         url('{{ url_for('static', filename='images/background.jpg') }}');
+         background-size:cover;
+         background-position:center;">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-8">
+
+                <h1 class="display-3 fw-bold">
+
+                    Smart Meter Company Limited
+
+                </h1>
+
+                <h3 class="mb-4">
+
+                    Intelligent Customer Complaint Management System
+
+                </h3>
+
+                <p class="lead">
+
+                    A modern web-based platform that enables customers to
+                    submit complaints online while allowing technical staff
+                    and administrators to monitor, assign, prioritize,
+                    resolve and analyze complaints efficiently.
+
+                </p>
+
+                <a href="{{ url_for('auth.login') }}"
+                   class="btn btn-primary btn-lg me-3">
+
+                    Login
+
+                </a>
+
+                <a href="{{ url_for('auth.register') }}"
+                   class="btn btn-outline-light btn-lg">
+
+                    Register
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================= -->
+<!-- ABOUT -->
+<!-- ========================================= -->
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold text-primary">
+
+                About Our System
+
+            </h2>
+
+        </div>
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-6">
+
+                <img src="{{ url_for('static', filename='images/company_logo.jpg') }}"
+                     class="img-fluid rounded shadow">
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <h3>
+
+                    Intelligent Complaint Management
+
+                </h3>
+
+                <p>
+
+                    This system was developed to improve customer service
+                    through intelligent complaint categorization,
+                    automatic priority assignment,
+                    complaint tracking,
+                    staff assignment,
+                    reporting and performance monitoring.
+
+                </p>
+
+                <p>
+
+                    Customers can easily submit complaints while staff
+                    members receive assigned tasks for quick resolution.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================= -->
+<!-- SERVICES -->
+<!-- ========================================= -->
+
+<section class="bg-light py-5">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold text-primary">
+
+                Our Services
+
+            </h2>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+
+                <div class="card shadow h-100">
+
+                    <div class="card-body text-center">
+
+                        <h3>
+
+                            Smart Meter Manufacturing
+
+                        </h3>
+
+                        <p>
+
+                            Manufacturing high-quality smart prepaid electricity meters.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card shadow h-100">
+
+                    <div class="card-body text-center">
+
+                        <h3>
+
+                            Installation
+
+                        </h3>
+
+                        <p>
+
+                            Professional meter installation and commissioning.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card shadow h-100">
+
+                    <div class="card-body text-center">
+
+                        <h3>
+
+                            Technical Support
+
+                        </h3>
+
+                        <p>
+
+                            Fault diagnosis,
+                            maintenance,
+                            repairs and customer assistance.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================= -->
+<!-- STATISTICS -->
+<!-- ========================================= -->
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="row text-center">
+
+            <div class="col-md-3">
+
+                <h1 class="text-primary fw-bold">
+
+                    10,000+
+
+                </h1>
+
+                <p>
+
+                    Smart Meters Installed
+
+                </p>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <h1 class="text-primary fw-bold">
+
+                    8,500+
+
+                </h1>
+
+                <p>
+
+                    Happy Customers
+
+                </p>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <h1 class="text-primary fw-bold">
+
+                    2,000+
+
+                </h1>
+
+                <p>
+
+                    Complaints Resolved
+
+                </p>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <h1 class="text-primary fw-bold">
+
+                    98%
+
+                </h1>
+
+                <p>
+
+                    Customer Satisfaction
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================= -->
+<!-- WHY CHOOSE US -->
+<!-- ========================================= -->
+
+<section class="bg-primary text-white py-5">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2>
+
+                Why Choose Us?
+
+            </h2>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+
+                <h4>
+
+                    Intelligent Automation
+
+                </h4>
+
+                <p>
+
+                    Automatic complaint categorization,
+                    priority assignment
+                    and escalation.
+
+                </p>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <h4>
+
+                    Fast Response
+
+                </h4>
+
+                <p>
+
+                    Staff receive assigned complaints immediately for
+                    quicker resolution.
+
+                </p>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <h4>
+
+                    Performance Monitoring
+
+                </h4>
+
+                <p>
+
+                    Administrators can monitor staff performance,
+                    complaint statistics
+                    and customer satisfaction.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================= -->
+<!-- CALL TO ACTION -->
+<!-- ========================================= -->
+
+<section class="py-5">
+
+    <div class="container text-center">
+
+        <h2 class="fw-bold">
+
+            Ready to Get Started?
+
+        </h2>
+
+        <p class="lead">
+
+            Register today or login to manage your complaints.
+
+        </p>
+
+        <a href="{{ url_for('auth.register') }}"
+           class="btn btn-success btn-lg me-3">
+
+            Register
+
+        </a>
+
+        <a href="{{ url_for('auth.login') }}"
+           class="btn btn-primary btn-lg">
+
+            Login
+
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

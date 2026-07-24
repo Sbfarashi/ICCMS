@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}
+Staff Performance
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-4">
+
+        <h2>
+
+            Staff Performance Dashboard
+
+        </h2>
+
+        <a href="{{ url_for('admin.dashboard') }}"
+           class="btn btn-secondary">
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-dark text-white">
+
+            Staff Performance Statistics
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-striped table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Staff Name</th>
+
+                            <th>Assigned</th>
+
+                            <th>Pending</th>
+
+                            <th>In Progress</th>
+
+                            <th>Resolved</th>
+
+                            <th>Closed</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for item in statistics %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ loop.index }}
+
+                            </td>
+
+                            <td>
+
+                                {{ item.staff.full_name }}
+
+                            </td>
+
+                            <td>
+
+                                {{ item.assigned }}
+
+                            </td>
+
+                            <td>
+
+                                {{ item.pending }}
+
+                            </td>
+
+                            <td>
+
+                                {{ item.in_progress }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+
+                                    {{ item.resolved }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                {{ item.closed }}
+
+                            </td>
+
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="7"
+                                class="text-center">
+
+                                No staff records found.
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

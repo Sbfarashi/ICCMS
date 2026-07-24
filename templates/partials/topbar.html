@@ -1,0 +1,67 @@
+<!-- ==========================================
+ SMART METERS COMPANY LIMITED
+ Enterprise Dashboard Topbar
+========================================== -->
+
+<header class="topbar">
+
+    <!-- Left -->
+
+    <div class="topbar-left">
+
+        <h3 class="topbar-title">
+            {% block page_title %}
+                Intelligent Customer Complaint Management System
+            {% endblock %}
+        </h3>
+
+    </div>
+
+    <!-- Right -->
+
+    <div class="topbar-right">
+
+        <!-- Notification -->
+
+        <div class="topbar-icon">
+
+            <i class="bi bi-bell-fill"></i>
+
+            <span class="notification-badge">3</span>
+
+        </div>
+
+        <!-- Messages -->
+
+        <div class="topbar-icon">
+
+            <i class="bi bi-envelope-fill"></i>
+
+            <span class="notification-badge">5</span>
+
+        </div>
+
+        <!-- User -->
+
+        <div class="profile">
+
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}"
+                 alt="Profile">
+
+            <div>
+
+                <h6>
+                    {{ session.get('full_name', session.get('user_name', 'User')) }}
+                </h6>
+
+                <span>
+                    {{ session.get('role', 'Customer')|title }}
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>

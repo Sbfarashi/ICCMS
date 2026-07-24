@@ -1,0 +1,155 @@
+/* ==========================================
+   TOPBAR
+========================================== */
+
+.topbar{
+
+    height:70px;
+
+    background:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 30px;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+    position:sticky;
+
+    top:0;
+
+    z-index:900;
+
+}
+
+.topbar-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.topbar-title{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#212529;
+
+}
+
+.topbar-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+.topbar-icon{
+
+    position:relative;
+
+    font-size:22px;
+
+    color:#555;
+
+    cursor:pointer;
+
+}
+
+.topbar-icon:hover{
+
+    color:var(--primary);
+
+}
+
+.notification-badge{
+
+    position:absolute;
+
+    top:-6px;
+
+    right:-8px;
+
+    width:18px;
+
+    height:18px;
+
+    border-radius:50%;
+
+    background:#dc3545;
+
+    color:#fff;
+
+    font-size:10px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+.profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.profile img{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+}
+
+.profile h6{
+
+    margin:0;
+
+    font-size:14px;
+
+}
+
+.profile span{
+
+    font-size:12px;
+
+    color:#6c757d;
+
+}
+
+@media(max-width:991px){
+
+    .topbar{
+
+        padding:15px;
+
+    }
+
+    .topbar-title{
+
+        font-size:18px;
+
+    }
+
+}

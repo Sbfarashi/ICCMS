@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}
+Notifications
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-4">
+
+        <h2>
+
+            Notifications
+
+        </h2>
+
+        <a href="{{ url_for('notification.read_all') }}"
+           class="btn btn-primary">
+
+            Mark All as Read
+
+        </a>
+
+    </div>
+
+    {% if notifications %}
+
+        {% for notification in notifications %}
+
+        <div class="card shadow-sm mb-3 {% if not notification.is_read %}border-primary{% endif %}">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+
+                        <h5>
+
+                            {{ notification.title }}
+
+                        </h5>
+
+                        <p>
+
+                            {{ notification.message }}
+
+                        </p>
+
+                        <small class="text-muted">
+
+                            {{ notification.created_at.strftime("%d-%m-%Y %H:%M") }}
+
+                        </small>
+
+                    </div>
+
+                    <div>
+
+                        {% if not notification.is_read %}
+
+                        <a href="{{ url_for('notification.mark_read', id=notification.id) }}"
+                           class="btn btn-success btn-sm">
+
+                            Mark Read
+
+                        </a>
+
+                        {% else %}
+
+                        <span class="badge bg-success">
+
+                            Read
+
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+    <div class="alert alert-info">
+
+        You have no notifications.
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,100 @@
+<!-- ==========================================
+ SMART METERS COMPANY LIMITED
+ Enterprise Dashboard Sidebar
+========================================== -->
+
+<aside class="sidebar">
+
+    <!-- Logo -->
+
+    <div class="sidebar-header">
+
+        <img src="{{ url_for('static', filename='images/logo.jpg') }}"
+             alt="Company Logo">
+
+        <h4>Smart Meters Company Ltd</h4>
+
+        <p>ICCMS</p>
+
+    </div>
+
+    <!-- Navigation -->
+
+    <ul class="sidebar-menu">
+
+        <li class="active">
+            <a href="{{ url_for('customer.dashboard') }}">
+                <i class="bi bi-grid-fill"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('complaint.submit_complaint') }}">
+                <i class="bi bi-plus-circle-fill"></i>
+                <span>Submit Complaint</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('complaint.history') }}">
+                <i class="bi bi-clock-history"></i>
+                <span>Complaint History</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-search"></i>
+                <span>Track Complaint</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-bell-fill"></i>
+                <span>Notifications</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-person-fill"></i>
+                <span>My Profile</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="bi bi-gear-fill"></i>
+                <span>Settings</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('auth.logout') }}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+
+    </ul>
+
+    <!-- User -->
+
+    <div class="sidebar-user">
+
+        <img src="{{ url_for('static', filename='images/logo.jpg') }}"
+             alt="User">
+
+        <div class="sidebar-user-info">
+
+            <h6>{{ session.get('full_name', session.get('user_name', 'User')) }}</h6>
+
+            <span>{{ session.get('role','Customer')|title }}</span>
+
+        </div>
+
+    </div>
+
+</aside>

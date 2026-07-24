@@ -1,0 +1,277 @@
+/* ==========================================
+   SIDEBAR
+========================================== */
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:260px;
+
+    height:100vh;
+
+    background:var(--sidebar);
+
+    color:#fff;
+
+    overflow-y:auto;
+
+    z-index:1000;
+
+    box-shadow:2px 0 15px rgba(0,0,0,.15);
+
+}
+
+/* ==========================================
+   LOGO
+========================================== */
+
+.sidebar-header{
+
+    text-align:center;
+
+    padding:25px 20px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.sidebar-header img{
+
+    width:80px;
+
+    height:80px;
+
+    object-fit:contain;
+
+    margin-bottom:10px;
+
+}
+
+.sidebar-header h4{
+
+    font-size:18px;
+
+    margin:0;
+
+    color:#fff;
+
+    font-weight:600;
+
+}
+
+.sidebar-header p{
+
+    color:#cbd5e1;
+
+    font-size:12px;
+
+    margin-top:5px;
+
+}
+
+/* ==========================================
+   MENU
+========================================== */
+
+.sidebar-menu{
+
+    list-style:none;
+
+    padding:20px 0;
+
+    margin:0;
+
+}
+
+.sidebar-menu li{
+
+    margin:4px 12px;
+
+}
+
+.sidebar-menu li a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:13px 18px;
+
+    color:#d1d5db;
+
+    text-decoration:none;
+
+    border-radius:10px;
+
+    transition:.25s;
+
+    font-weight:500;
+
+}
+
+.sidebar-menu li a:hover{
+
+    background:var(--sidebar-hover);
+
+    color:#fff;
+
+}
+
+.sidebar-menu li.active a{
+
+    background:var(--sidebar-active);
+
+    color:#fff;
+
+}
+
+.sidebar-menu li a i{
+
+    width:22px;
+
+    text-align:center;
+
+    font-size:18px;
+
+}
+
+/* ==========================================
+   SECTION TITLE
+========================================== */
+
+.sidebar-title{
+
+    color:#9ca3af;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+    padding:15px 25px 8px;
+
+}
+
+/* ==========================================
+   BADGE
+========================================== */
+
+.sidebar-badge{
+
+    margin-left:auto;
+
+    background:#dc3545;
+
+    color:#fff;
+
+    font-size:11px;
+
+    border-radius:30px;
+
+    padding:2px 8px;
+
+}
+
+/* ==========================================
+   USER PANEL
+========================================== */
+
+.sidebar-user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:18px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    margin-top:auto;
+
+}
+
+.sidebar-user img{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.sidebar-user-info{
+
+    flex:1;
+
+}
+
+.sidebar-user-info h6{
+
+    margin:0;
+
+    color:#fff;
+
+    font-size:14px;
+
+}
+
+.sidebar-user-info span{
+
+    color:#cbd5e1;
+
+    font-size:12px;
+
+}
+
+/* ==========================================
+   SCROLLBAR
+========================================== */
+
+.sidebar::-webkit-scrollbar{
+
+    width:6px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:#4b5563;
+
+    border-radius:20px;
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width:991px){
+
+    .sidebar{
+
+        transform:translateX(-100%);
+
+        transition:.3s;
+
+    }
+
+    .sidebar.show{
+
+        transform:translateX(0);
+
+    }
+
+}

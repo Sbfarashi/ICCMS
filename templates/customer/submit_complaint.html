@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}
+Submit Complaint
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+            <h4>Submit New Complaint</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    <label>Meter Number</label>
+                    <input
+                        type="text"
+                        name="meter_number"
+                        class="form-control"
+                        required>
+                </div>
+
+                <div class="mb-3">
+                    {{ form.category.label }}
+                    {{ form.category(class="form-select") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.subject.label }}
+                    {{ form.subject(class="form-control") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.description.label }}
+                    {{ form.description(
+                        class="form-control",
+                        rows="6"
+                    ) }}
+                </div>
+
+                <div class="mb-3">
+                    <label>Location</label>
+                    <input
+                        type="text"
+                        name="location"
+                        class="form-control">
+                </div>
+
+                {{ form.submit(
+                    class="btn btn-success"
+                ) }}
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

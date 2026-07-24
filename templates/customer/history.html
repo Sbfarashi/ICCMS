@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Complaint History{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>My Complaint History</h2>
+
+        <a href="{{ url_for('complaint.submit_complaint') }}"
+           class="btn btn-primary">
+            New Complaint
+        </a>
+    </div>
+
+    {% if complaints %}
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-dark">
+
+            <tr>
+                <th>Complaint No.</th>
+                <th>Category</th>
+                <th>Title</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Date Submitted</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for complaint in complaints %}
+
+        <tr>
+
+            <td>{{ complaint.complaint_number }}</td>
+
+            <td>
+                {% if complaint.category %}
+                    {{ complaint.category.name }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+
+            <td>{{ complaint.title }}</td>
+
+            <td>
+                <span class="badge bg-warning text-dark">
+                    {{ complaint.priority }}
+                </span>
+            </td>
+
+            <td>
+
+                {% if complaint.status == "Pending" %}
+
+                    <span class="badge bg-secondary">
+                        {{ complaint.status }}
+                    </span>
+
+                {% elif complaint.status == "In Progress" %}
+
+                    <span class="badge bg-primary">
+                        {{ complaint.status }}
+                    </span>
+
+                {% elif complaint.status == "Resolved" %}
+
+                    <span class="badge bg-success">
+                        {{ complaint.status }}
+                    </span>
+
+                {% elif complaint.status == "Escalated" %}
+
+                    <span class="badge bg-danger">
+                        {{ complaint.status }}
+                    </span>
+
+                {% else %}
+
+                    {{ complaint.status }}
+
+                {% endif %}
+
+            </td>
+
+            <td>
+
+                {{ complaint.created_at.strftime("%d %b %Y %I:%M %p") }}
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+    <div class="alert alert-info">
+
+        You have not submitted any complaints yet.
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

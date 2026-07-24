@@ -1,0 +1,508 @@
+{% extends "base.html" %}
+
+{% block title %}
+Complaint Management
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <!-- ========================================= -->
+    <!-- PAGE HEADER -->
+    <!-- ========================================= -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Complaint Management
+            </h2>
+
+            <p class="text-muted mb-0">
+                Search, filter and manage customer complaints.
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('admin.dashboard') }}"
+           class="btn btn-secondary">
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- SEARCH PANEL -->
+    <!-- ========================================= -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            Advanced Search & Filter
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row">
+
+                    <div class="col-md-3 mb-3">
+
+                        {{ form.complaint_number.label(class="form-label") }}
+
+                        {{ form.complaint_number(
+                            class="form-control",
+                            value=filters.complaint_number
+                        ) }}
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        {{ form.customer.label(class="form-label") }}
+
+                        {{ form.customer(
+                            class="form-control",
+                            value=filters.customer
+                        ) }}
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        {{ form.meter_number.label(class="form-label") }}
+
+                        {{ form.meter_number(
+                            class="form-control",
+                            value=filters.meter_number
+                        ) }}
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        {{ form.status.label(class="form-label") }}
+
+                        {{ form.status(
+                            class="form-select"
+                        ) }}
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-3 mb-3">
+
+                        {{ form.priority.label(class="form-label") }}
+
+                        {{ form.priority(
+                            class="form-select"
+                        ) }}
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        {{ form.category.label(class="form-label") }}
+
+                        {{ form.category(
+                            class="form-select"
+                        ) }}
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        {{ form.date_from.label(class="form-label") }}
+
+                        {{ form.date_from(
+                            class="form-control"
+                        ) }}
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        {{ form.date_to.label(class="form-label") }}
+
+                        {{ form.date_to(
+                            class="form-control"
+                        ) }}
+
+                    </div>
+
+                </div>
+
+                <div class="text-end">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        Search
+
+                    </button>
+
+                    <a href="{{ url_for('admin.complaints') }}"
+                       class="btn btn-outline-secondary">
+
+                        Reset
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- COMPLAINT TABLE -->
+    <!-- ========================================= -->
+
+    <div class="card shadow">
+
+        <div class="card-header bg-dark text-white">
+
+            Complaint List
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover table-striped align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Complaint No</th>
+
+                            <th>Customer</th>
+
+                            <th>Meter No</th>
+
+                            <th>Category</th>
+
+                            <th>Priority</th>
+
+                            <th>Status</th>
+
+                            <th>Date</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for complaint in complaints.items %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ loop.index +
+                                ((complaints.page-1)
+                                * complaints.per_page) }}
+
+                            </td>
+
+                            <td>
+
+                                {{ complaint.complaint_number }}
+
+                            </td>
+
+                            <td>
+
+                                {{ complaint.customer.full_name }}
+
+                            </td>
+
+                            <td>
+
+                                {{ complaint.meter_number }}
+
+                            </td>
+
+                            <td>
+
+                                {{ complaint.category.name }}
+
+                            </td>
+
+                            <td>
+
+                                {% if complaint.priority=="Critical" %}
+
+                                    <span class="badge bg-danger">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% elif complaint.priority=="High" %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% elif complaint.priority=="Medium" %}
+
+                                    <span class="badge bg-info text-dark">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if complaint.status=="Pending" %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% elif complaint.status=="In Progress" %}
+
+                                    <span class="badge bg-primary">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% elif complaint.status=="Resolved" %}
+
+                                    <span class="badge bg-success">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-dark">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ complaint.created_at.strftime("%d-%m-%Y") }}
+
+                            </td>
+
+                            <td>
+
+                                <a href="{{ url_for('admin.complaint_details',
+                                    complaint_id=complaint.id) }}"
+                                    class="btn btn-sm btn-primary">
+
+                                    View
+
+                                </a>
+
+                                <a href="{{ url_for('admin.assign_complaint',
+                                    complaint_id=complaint.id) }}"
+                                    class="btn btn-sm btn-warning">
+
+                                    Assign
+
+                                </a>
+
+                                <a href="{{ url_for('admin.update_complaint',
+                                    complaint_id=complaint.id) }}"
+                                    class="btn btn-sm btn-success">
+
+                                    Update
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="9"
+                                class="text-center text-muted">
+
+                                No complaints found.
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+<!-- ========================================= -->
+<!-- PAGINATION -->
+<!-- ========================================= -->
+
+<nav class="mt-4">
+
+    <ul class="pagination justify-content-center">
+
+        <!-- Previous Button -->
+
+        <li class="page-item {% if not complaints.has_prev %}disabled{% endif %}">
+
+            <a class="page-link"
+
+               href="{% if complaints.has_prev %}{{ url_for(
+                    'admin.complaints',
+                    page=complaints.prev_num,
+                    complaint_number=filters.get('complaint_number', ''),
+                    customer=filters.get('customer', ''),
+                    meter_number=filters.get('meter_number', ''),
+                    status=filters.get('status', ''),
+                    priority=filters.get('priority', ''),
+                    category=filters.get('category', ''),
+                    date_from=filters.get('date_from', ''),
+                    date_to=filters.get('date_to', '')
+               ) }}{% else %}#{% endif %}">
+
+                &laquo; Previous
+
+            </a>
+
+        </li>
+
+
+        <!-- Page Numbers -->
+
+        {% for page_num in complaints.iter_pages(
+            left_edge=2,
+            right_edge=2,
+            left_current=2,
+            right_current=3
+        ) %}
+
+            {% if page_num %}
+
+                <li class="page-item {% if page_num == complaints.page %}active{% endif %}">
+
+                    <a class="page-link"
+
+                       href="{{ url_for(
+                            'admin.complaints',
+                            page=page_num,
+                            complaint_number=filters.get('complaint_number', ''),
+                            customer=filters.get('customer', ''),
+                            meter_number=filters.get('meter_number', ''),
+                            status=filters.get('status', ''),
+                            priority=filters.get('priority', ''),
+                            category=filters.get('category', ''),
+                            date_from=filters.get('date_from', ''),
+                            date_to=filters.get('date_to', '')
+                       ) }}">
+
+                        {{ page_num }}
+
+                    </a>
+
+                </li>
+
+            {% else %}
+
+                <li class="page-item disabled">
+
+                    <span class="page-link">
+
+                        ...
+
+                    </span>
+
+                </li>
+
+            {% endif %}
+
+        {% endfor %}
+
+
+        <!-- Next Button -->
+
+        <li class="page-item {% if not complaints.has_next %}disabled{% endif %}">
+
+            <a class="page-link"
+
+               href="{% if complaints.has_next %}{{ url_for(
+                    'admin.complaints',
+                    page=complaints.next_num,
+                    complaint_number=filters.get('complaint_number', ''),
+                    customer=filters.get('customer', ''),
+                    meter_number=filters.get('meter_number', ''),
+                    status=filters.get('status', ''),
+                    priority=filters.get('priority', ''),
+                    category=filters.get('category', ''),
+                    date_from=filters.get('date_from', ''),
+                    date_to=filters.get('date_to', '')
+               ) }}{% else %}#{% endif %}">
+
+                Next &raquo;
+
+            </a>
+
+        </li>
+
+    </ul>
+
+</nav>
+
+</div>
+
+{% endblock %}

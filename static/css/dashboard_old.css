@@ -1,0 +1,330 @@
+/*=========================================================
+ SMART METERS COMPANY LTD
+ Dashboard
+=========================================================*/
+
+/*==============================
+ PAGE HEADER
+==============================*/
+
+.dashboard-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:35px;
+
+}
+
+.dashboard-header h2{
+
+    font-size:32px;
+
+    font-weight:700;
+
+    color:var(--primary);
+
+}
+
+.dashboard-header p{
+
+    color:var(--text);
+
+    margin-top:8px;
+
+}
+
+/*==============================
+ QUICK ACTIONS
+==============================*/
+
+.quick-actions{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+    margin-bottom:35px;
+
+}
+
+.quick-card{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    box-shadow:var(--shadow-sm);
+
+    transition:var(--transition);
+
+    text-align:center;
+
+    cursor:pointer;
+
+}
+
+.quick-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:var(--shadow);
+
+}
+
+.quick-card i{
+
+    font-size:45px;
+
+    color:var(--orange);
+
+    margin-bottom:15px;
+
+}
+
+.quick-card h5{
+
+    font-weight:600;
+
+}
+
+.quick-card p{
+
+    color:var(--text);
+
+    margin-top:8px;
+
+    font-size:14px;
+
+}
+
+/*==============================
+ STATISTICS
+==============================*/
+
+.statistics{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+    margin-bottom:35px;
+
+}
+
+.stat-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow-sm);
+
+    transition:var(--transition);
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:var(--shadow);
+
+}
+
+.stat-icon{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:20px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:32px;
+
+    color:white;
+
+    margin-bottom:20px;
+
+}
+
+.blue{
+
+    background:var(--primary);
+
+}
+
+.orange{
+
+    background:var(--orange);
+
+}
+
+.green{
+
+    background:var(--success);
+
+}
+
+.red{
+
+    background:var(--danger);
+
+}
+
+.stat-card h2{
+
+    font-size:42px;
+
+    font-weight:700;
+
+}
+
+.stat-card h6{
+
+    color:var(--text);
+
+    margin-top:5px;
+
+}
+
+.stat-card small{
+
+    color:var(--light);
+
+}
+
+/*==============================
+ CHARTS
+==============================*/
+
+.chart-grid{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:25px;
+
+    margin-bottom:35px;
+
+}
+
+.chart-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:var(--shadow-sm);
+
+}
+
+.chart-card h5{
+
+    margin-bottom:20px;
+
+    color:var(--primary);
+
+    font-weight:600;
+
+}
+
+/*==============================
+ RECENT COMPLAINTS
+==============================*/
+
+.recent-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:var(--shadow-sm);
+
+}
+
+.recent-card h5{
+
+    margin-bottom:20px;
+
+    color:var(--primary);
+
+}
+
+/*==============================
+ SYSTEM ANALYSIS
+==============================*/
+
+.analysis-card{
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-dark)
+    );
+
+    color:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    margin-top:30px;
+
+}
+
+.analysis-card h4{
+
+    margin-bottom:20px;
+
+}
+
+.analysis-card ul{
+
+    list-style:none;
+
+    padding:0;
+
+}
+
+.analysis-card li{
+
+    margin-bottom:15px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+}
+
+.analysis-card strong{
+
+    color:#FFD54F;
+
+}

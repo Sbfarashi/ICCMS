@@ -1,0 +1,39 @@
+/*=========================================================
+ TABLES
+=========================================================*/
+
+.table{
+
+    margin-bottom:0;
+
+    vertical-align:middle;
+
+}
+
+.table thead{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+.table th{
+
+    border:none;
+
+    padding:18px;
+
+}
+
+.table td{
+
+    padding:18px;
+
+}
+
+.table tbody tr:hover{
+
+    background:#f8fbff;
+
+}

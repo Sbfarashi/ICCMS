@@ -1,0 +1,454 @@
+/* ==========================================
+   SMART METER COMPANY LIMITED
+   Intelligent Complaint Management System
+========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:#f8f9fa;
+
+    color:#333;
+
+    overflow-x:hidden;
+
+}
+
+/* ==========================================
+   NAVBAR
+========================================== */
+
+.navbar{
+
+    transition:.4s;
+
+    padding:15px 0;
+
+}
+
+.navbar-brand img{
+
+    transition:.4s;
+
+}
+
+.navbar-brand img:hover{
+
+    transform:rotate(-5deg) scale(1.05);
+
+}
+
+.nav-link{
+
+    font-weight:500;
+
+    margin-left:15px;
+
+    transition:.3s;
+
+    color:#222 !important;
+
+}
+
+.nav-link:hover{
+
+    color:#0d6efd !important;
+
+}
+
+.nav-link.active{
+
+    color:#0d6efd !important;
+
+    font-weight:bold;
+
+}
+
+/* ==========================================
+   HERO SECTION
+========================================== */
+
+.hero-section{
+
+    position:relative;
+
+    min-height:100vh;
+
+}
+
+.hero-section h1{
+
+    font-size:65px;
+
+    font-weight:700;
+
+    animation:fadeDown 1s;
+
+}
+
+.hero-section h3{
+
+    font-weight:500;
+
+    animation:fadeDown 1.4s;
+
+}
+
+.hero-section p{
+
+    font-size:20px;
+
+    animation:fadeUp 1.8s;
+
+}
+
+.hero-section .btn{
+
+    margin-top:15px;
+
+    padding:14px 35px;
+
+    border-radius:40px;
+
+    transition:.4s;
+
+}
+
+.hero-section .btn:hover{
+
+    transform:translateY(-5px);
+
+}
+
+/* ==========================================
+   SECTION TITLES
+========================================== */
+
+section h2{
+
+    font-weight:700;
+
+    margin-bottom:20px;
+
+}
+
+/* ==========================================
+   CARDS
+========================================== */
+
+.card{
+
+    border:none;
+
+    transition:.4s;
+
+    border-radius:15px;
+
+}
+
+.card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:0 15px 35px rgba(0,0,0,.2);
+
+}
+
+.card-body{
+
+    padding:35px;
+
+}
+
+.card h3{
+
+    color:#0d6efd;
+
+    font-weight:600;
+
+    margin-bottom:15px;
+
+}
+
+/* ==========================================
+   STATISTICS
+========================================== */
+
+section h1{
+
+    font-size:55px;
+
+    font-weight:bold;
+
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.btn{
+
+    transition:.4s;
+
+}
+
+.btn:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.btn-primary{
+
+    border-radius:35px;
+
+    padding:12px 30px;
+
+}
+
+.btn-success{
+
+    border-radius:35px;
+
+    padding:12px 30px;
+
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+footer{
+
+    margin-top:80px;
+
+}
+
+footer h4,
+
+footer h5{
+
+    font-weight:600;
+
+}
+
+footer a{
+
+    transition:.3s;
+
+}
+
+footer a:hover{
+
+    color:#ffc107 !important;
+
+    padding-left:8px;
+
+}
+
+/* ==========================================
+   ALERTS
+========================================== */
+
+.alert{
+
+    border-radius:10px;
+
+}
+
+/* ==========================================
+   FORMS
+========================================== */
+
+.form-control{
+
+    border-radius:10px;
+
+    padding:12px;
+
+}
+
+.form-control:focus{
+
+    box-shadow:0 0 12px rgba(13,110,253,.3);
+
+}
+
+/* ==========================================
+   TABLES
+========================================== */
+
+.table{
+
+    background:white;
+
+    border-radius:10px;
+
+}
+
+/* ==========================================
+   DASHBOARD CARDS
+========================================== */
+
+.dashboard-card{
+
+    border-radius:15px;
+
+    color:white;
+
+    padding:25px;
+
+    margin-bottom:20px;
+
+}
+
+.dashboard-card h2{
+
+    font-size:40px;
+
+}
+
+.dashboard-card p{
+
+    margin:0;
+
+}
+
+/* ==========================================
+   LOGIN
+========================================== */
+
+.login-card{
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+/* ==========================================
+   REGISTER
+========================================== */
+
+.register-card{
+
+    border-radius:20px;
+
+}
+
+/* ==========================================
+   ANIMATIONS
+========================================== */
+
+@keyframes fadeDown{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(-60px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(60px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:991px){
+
+.hero-section{
+
+text-align:center;
+
+padding-top:120px;
+
+}
+
+.hero-section h1{
+
+font-size:42px;
+
+}
+
+.hero-section h3{
+
+font-size:24px;
+
+}
+
+section h1{
+
+font-size:35px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.hero-section h1{
+
+font-size:34px;
+
+}
+
+.hero-section p{
+
+font-size:17px;
+
+}
+
+.card{
+
+margin-bottom:20px;
+
+}
+
+.nav-link{
+
+margin-left:0;
+
+}
+
+}

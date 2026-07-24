@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="container py-5 mt-5">
+
+    <div class="text-center mb-5">
+
+        <h1 class="fw-bold text-primary">
+
+            About Smart Meter Company Limited
+
+        </h1>
+
+        <p class="lead">
+
+            Intelligent Customer Complaint Management System
+
+        </p>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-6">
+
+            <img src="{{ url_for('static', filename='images/company_logo.jpg') }}"
+                 class="img-fluid rounded shadow">
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <h3 class="text-primary">
+
+                Company Profile
+
+            </h3>
+
+            <p>
+
+                Smart Meter Company Limited is a Nigerian meter manufacturing
+                company specializing in the production, installation,
+                configuration and maintenance of smart electricity meters.
+
+            </p>
+
+            <p>
+
+                This Intelligent Customer Complaint Management System enables
+                customers to submit complaints online while allowing technical
+                staff to monitor, assign and resolve issues efficiently.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <hr class="my-5">
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <div class="card shadow">
+
+                <div class="card-body">
+
+                    <h4 class="text-primary">
+
+                        Mission
+
+                    </h4>
+
+                    <p>
+
+                        To provide reliable smart metering solutions supported
+                        by excellent customer service and innovative technology.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow">
+
+                <div class="card-body">
+
+                    <h4 class="text-primary">
+
+                        Vision
+
+                    </h4>
+
+                    <p>
+
+                        To become Nigeria's leading smart meter manufacturer
+                        and technology-driven energy solutions provider.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow">
+
+                <div class="card-body">
+
+                    <h4 class="text-primary">
+
+                        Core Values
+
+                    </h4>
+
+                    <ul>
+
+                        <li>Integrity</li>
+
+                        <li>Innovation</li>
+
+                        <li>Quality</li>
+
+                        <li>Professionalism</li>
+
+                        <li>Customer Satisfaction</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
