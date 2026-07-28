@@ -102,9 +102,9 @@ class Complaint(db.Model):
         nullable=False
     )
 
-    # ==========================================
+    # ==========================================================
     # Relationships
-    # ==========================================
+    # ==========================================================
 
     customer = db.relationship(
         "User",
@@ -125,6 +125,17 @@ class Complaint(db.Model):
 
     history = db.relationship(
         "ComplaintHistory",
+        back_populates="complaint",
+        cascade="all, delete-orphan",
+        lazy=True
+    )
+
+    # ==========================================================
+    # Engineer Field Visits
+    # ==========================================================
+
+    field_visits = db.relationship(
+        "FieldVisit",
         back_populates="complaint",
         cascade="all, delete-orphan",
         lazy=True

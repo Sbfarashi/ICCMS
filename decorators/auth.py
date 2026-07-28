@@ -55,7 +55,9 @@ def role_required(*roles):
                     url_for("auth.login")
                 )
 
-            if session.get("role") not in roles:
+            current_role = session.get("role")
+
+            if current_role not in roles:
 
                 flash(
                     "You are not authorized to access this page.",
@@ -86,12 +88,18 @@ def admin_required(view):
 
 # ==========================================================
 # STAFF
+#
+# Staff dashboard is temporarily shared with
+# Staff, Engineer and Supervisor until their
+# dedicated modules are completed.
 # ==========================================================
 
 def staff_required(view):
 
     return role_required(
-        UserRole.STAFF
+        UserRole.STAFF,
+        UserRole.ENGINEER,
+        UserRole.SUPERVISOR
     )(view)
 
 

@@ -52,17 +52,13 @@ class SearchService:
         if customer:
 
             query = (
-
                 query
-
-                .join(User)
-
+                .join(Complaint.customer)
                 .filter(
                     User.full_name.ilike(
                         f"%{customer}%"
                     )
                 )
-
             )
 
         # ==========================================
@@ -98,15 +94,11 @@ class SearchService:
         if category:
 
             query = (
-
                 query
-
-                .join(Category)
-
+                .join(Complaint.category)
                 .filter(
                     Category.name == category
                 )
-
             )
 
         # ==========================================
@@ -146,6 +138,13 @@ class SearchService:
                     "%Y-%m-%d"
                 )
 
+                # Include the entire selected day
+                end_date = end_date.replace(
+                    hour=23,
+                    minute=59,
+                    second=59
+                )
+
                 query = query.filter(
                     Complaint.created_at <= end_date
                 )
@@ -154,7 +153,7 @@ class SearchService:
                 pass
 
         # ==========================================
-        # Sort
+        # Sort Results
         # ==========================================
 
         query = query.order_by(

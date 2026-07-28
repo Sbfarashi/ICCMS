@@ -1,74 +1,44 @@
-from flask import Blueprint
-from flask import render_template
-from flask import session
-from flask import redirect
-from flask import url_for
-
+from flask import Blueprint, render_template, session
 from models.complaint import Complaint
 
-customer = Blueprint(
-    "customer",
-    __name__
-)
+customer = Blueprint("customer", __name__)
 
 
 @customer.route("/dashboard")
 def dashboard():
-    """
-    Customer Dashboard
-    """
+    user_id = session["user_id"]
 
-    # ======================================================
-    # Check Login
-    # ======================================================
-    if "user_id" not in session:
-        return redirect(url_for("auth.login"))
+    # Base query
+    base_query = Complaint.query.filter_by(customer_id=user_id)
 
-    user_id = session.get("user_id")
-
-    # ======================================================
-    # Complaint Statistics
-    # ======================================================
-    total = Complaint.query.filter_by(
-        customer_id=user_id
-    ).count()
-
-    pending = Complaint.query.filter_by(
-        customer_id=user_id,
-        status="Pending"
-    ).count()
-
-    resolved = Complaint.query.filter_by(
-        customer_id=user_id,
-        status="Resolved"
-    ).count()
-
-    escalated = Complaint.query.filter_by(
-        customer_id=user_id,
-        status="Escalated"
-    ).count()
-
-    # ======================================================
-    # Recent Complaints
-    # ======================================================
+    # Recent complaints
     complaints = (
-        Complaint.query
-        .filter_by(customer_id=user_id)
+        base_query
         .order_by(Complaint.created_at.desc())
-        .limit(10)
+        .limit(5)
         .all()
     )
 
-    # ======================================================
-    # Render Dashboard
-    # ======================================================
+    # Dashboard statistics
+    total = base_query.count()
+
+    pending = base_query.filter_by(
+        status="Pending"
+    ).count()
+
+    resolved = base_query.filter_by(
+        status="Resolved"
+    ).count()
+
+    escalated = base_query.filter_by(
+        status="Escalated"
+    ).count()
+
     return render_template(
         "customer/dashboard.html",
-        user_name=session.get("user_name", "Customer"),
-        full_name=session.get("full_name", "Customer"),
+        complaints=complaints,
         total_complaints=total,
-        pending_complaints=pending,
-        resolved_complaints=resolved,
-        escalated_complaints=escalated,
-        complaints=complaints
+        pending=pending,
+        resolved=resolved,
+        escalated=escalated
     )

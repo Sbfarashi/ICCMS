@@ -1,100 +1,233 @@
-<!-- ==========================================
- SMART METERS COMPANY LIMITED
- Enterprise Dashboard Sidebar
-========================================== -->
-
 <aside class="sidebar">
-
-    <!-- Logo -->
 
     <div class="sidebar-header">
 
         <img src="{{ url_for('static', filename='images/logo.jpg') }}"
-             alt="Company Logo">
+             alt="Logo">
 
-        <h4>Smart Meters Company Ltd</h4>
+        <h4>Smart Meter Company Ltd</h4>
 
         <p>ICCMS</p>
 
     </div>
 
-    <!-- Navigation -->
-
     <ul class="sidebar-menu">
 
-        <li class="active">
+        <!-- ================= CUSTOMER ================= -->
+
+        {% if session.get("role") == "customer" %}
+
+        <li>
             <a href="{{ url_for('customer.dashboard') }}">
                 <i class="bi bi-grid-fill"></i>
-                <span>Dashboard</span>
+                Dashboard
             </a>
         </li>
 
         <li>
             <a href="{{ url_for('complaint.submit_complaint') }}">
                 <i class="bi bi-plus-circle-fill"></i>
-                <span>Submit Complaint</span>
+                Submit Complaint
             </a>
         </li>
 
         <li>
             <a href="{{ url_for('complaint.history') }}">
                 <i class="bi bi-clock-history"></i>
-                <span>Complaint History</span>
+                Complaint History
             </a>
         </li>
 
         <li>
-            <a href="#">
+            <a href="{{ url_for('customer.track_complaint') }}">
                 <i class="bi bi-search"></i>
-                <span>Track Complaint</span>
+                Track Complaint
             </a>
         </li>
 
         <li>
-            <a href="#">
+            <a href="{{ url_for('notification.notifications') }}">
                 <i class="bi bi-bell-fill"></i>
-                <span>Notifications</span>
+                Notifications
             </a>
         </li>
 
         <li>
-            <a href="#">
+            <a href="{{ url_for('login_history.index') }}">
+                <i class="bi bi-clock-fill"></i>
+                Login History
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('activity_log.index') }}">
+                <i class="bi bi-journal-text"></i>
+                Activity Log
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('customer.profile') }}">
                 <i class="bi bi-person-fill"></i>
-                <span>My Profile</span>
+                My Profile
             </a>
         </li>
 
         <li>
-            <a href="#">
+            <a href="{{ url_for('customer.settings') }}">
                 <i class="bi bi-gear-fill"></i>
-                <span>Settings</span>
+                Settings
             </a>
         </li>
+
+        {% endif %}
+
+        <!-- ================= ENGINEER ================= -->
+
+        {% if session.get("role") == "engineer" %}
+
+        <li>
+            <a href="{{ url_for('engineer.dashboard') }}">
+                <i class="bi bi-grid-fill"></i>
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('engineer.my_jobs') }}">
+                <i class="bi bi-list-task"></i>
+                My Jobs
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('engineer.my_field_visits') }}">
+                <i class="bi bi-geo-alt-fill"></i>
+                Field Visits
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('engineer.performance') }}">
+                <i class="bi bi-graph-up"></i>
+                Performance
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('login_history.index') }}">
+                <i class="bi bi-clock-fill"></i>
+                Login History
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('activity_log.index') }}">
+                <i class="bi bi-journal-text"></i>
+                Activity Log
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('engineer.profile') }}">
+                <i class="bi bi-person-fill"></i>
+                My Profile
+            </a>
+        </li>
+
+        {% endif %}
+
+        <!-- ================= STAFF ================= -->
+
+        {% if session.get("role") == "staff" %}
+
+        <li>
+            <a href="{{ url_for('staff.dashboard') }}">
+                <i class="bi bi-grid-fill"></i>
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('login_history.index') }}">
+                <i class="bi bi-clock-fill"></i>
+                Login History
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('activity_log.index') }}">
+                <i class="bi bi-journal-text"></i>
+                Activity Log
+            </a>
+        </li>
+
+        {% endif %}
+
+        <!-- ================= ADMIN ================= -->
+
+        {% if session.get("role") == "admin" %}
+
+        <li>
+            <a href="{{ url_for('admin.dashboard') }}">
+                <i class="bi bi-speedometer2"></i>
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('admin.users') }}">
+                <i class="bi bi-people-fill"></i>
+                Users
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('admin.complaints') }}">
+                <i class="bi bi-chat-square-text-fill"></i>
+                Complaints
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('report.dashboard') }}">
+                <i class="bi bi-file-earmark-bar-graph-fill"></i>
+                Reports
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('notification.notifications') }}">
+                <i class="bi bi-bell-fill"></i>
+                Notifications
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('login_history.index') }}">
+                <i class="bi bi-clock-fill"></i>
+                Login History
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('activity_log.index') }}">
+                <i class="bi bi-journal-text"></i>
+                Activity Log
+            </a>
+        </li>
+
+        {% endif %}
+
+        <!-- ================= LOGOUT ================= -->
 
         <li>
             <a href="{{ url_for('auth.logout') }}">
                 <i class="bi bi-box-arrow-right"></i>
-                <span>Logout</span>
+                Logout
             </a>
         </li>
 
     </ul>
-
-    <!-- User -->
-
-    <div class="sidebar-user">
-
-        <img src="{{ url_for('static', filename='images/logo.jpg') }}"
-             alt="User">
-
-        <div class="sidebar-user-info">
-
-            <h6>{{ session.get('full_name', session.get('user_name', 'User')) }}</h6>
-
-            <span>{{ session.get('role','Customer')|title }}</span>
-
-        </div>
-
-    </div>
 
 </aside>

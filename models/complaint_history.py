@@ -56,7 +56,8 @@ class ComplaintHistory(db.Model):
 
     user = db.relationship(
         "User",
-        foreign_keys=[performed_by]
+        foreign_keys=[performed_by],
+        back_populates="history"
     )
 
     def __repr__(self):

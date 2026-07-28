@@ -1,0 +1,446 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+My Assigned Complaints
+{% endblock %}
+
+{% block page_title %}
+My Assigned Complaints
+{% endblock %}
+
+{% block content %}
+
+<div class="card shadow-sm border-0">
+
+    <div class="card-header d-flex justify-content-between align-items-center">
+
+        <h5 class="mb-0">
+            My Assigned Complaints
+        </h5>
+
+        <span class="badge bg-primary">
+            {{ complaints.total }} Complaint(s)
+        </span>
+
+    </div>
+
+    <div class="card-body">
+
+        <!-- Search & Filter -->
+
+        <form method="GET"
+              action="{{ url_for('staff.my_complaints') }}"
+              class="row g-3 mb-4">
+
+            <div class="col-lg-5">
+
+                <label class="form-label fw-bold">
+                    Search
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="search"
+                    placeholder="Complaint No, Customer, Meter Number or Title"
+                    value="{{ search }}">
+
+            </div>
+
+            <div class="col-lg-2">
+
+                <label class="form-label fw-bold">
+                    Status
+                </label>
+
+                <select class="form-select" name="status">
+
+                    <option value="">All Status</option>
+
+                    <option value="Pending"
+                        {% if status=="Pending" %}selected{% endif %}>
+                        Pending
+                    </option>
+
+                    <option value="Assigned"
+                        {% if status=="Assigned" %}selected{% endif %}>
+                        Assigned
+                    </option>
+
+                    <option value="In Progress"
+                        {% if status=="In Progress" %}selected{% endif %}>
+                        In Progress
+                    </option>
+
+                    <option value="Resolved"
+                        {% if status=="Resolved" %}selected{% endif %}>
+                        Resolved
+                    </option>
+
+                    <option value="Closed"
+                        {% if status=="Closed" %}selected{% endif %}>
+                        Closed
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="col-lg-2">
+
+                <label class="form-label fw-bold">
+                    Priority
+                </label>
+
+                <select class="form-select" name="priority">
+
+                    <option value="">All Priority</option>
+
+                    <option value="Low"
+                        {% if priority=="Low" %}selected{% endif %}>
+                        Low
+                    </option>
+
+                    <option value="Medium"
+                        {% if priority=="Medium" %}selected{% endif %}>
+                        Medium
+                    </option>
+
+                    <option value="High"
+                        {% if priority=="High" %}selected{% endif %}>
+                        High
+                    </option>
+
+                    <option value="Critical"
+                        {% if priority=="Critical" %}selected{% endif %}>
+                        Critical
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="col-lg-3 d-flex align-items-end">
+
+                <button class="btn btn-primary me-2">
+
+                    <i class="fas fa-search"></i>
+
+                    Search
+
+                </button>
+
+                <a href="{{ url_for('staff.my_complaints') }}"
+                   class="btn btn-outline-secondary">
+
+                    Reset
+
+                </a>
+
+            </div>
+
+        </form>
+
+        {% if complaints.items %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Complaint No.</th>
+
+                        <th>Customer</th>
+
+                        <th>Meter Number</th>
+
+                        <th>Category</th>
+
+                        <th>Priority</th>
+
+                        <th>Status</th>
+
+                        <th>Assigned</th>
+
+                        <th class="text-center">Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for complaint in complaints.items %}
+
+                    <tr>
+
+                        <td>
+                            <strong>{{ complaint.complaint_number }}</strong>
+                        </td>
+
+                        <td>
+                            {{ complaint.customer.full_name }}
+                        </td>
+
+                        <td>
+                            {{ complaint.meter_number }}
+                        </td>
+
+                        <td>
+
+                            {% if complaint.category %}
+                                {{ complaint.category.name }}
+                            {% else %}
+                                -
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if complaint.priority=="Critical" %}
+                                <span class="badge bg-danger">Critical</span>
+
+                            {% elif complaint.priority=="High" %}
+                                <span class="badge bg-warning text-dark">High</span>
+
+                            {% elif complaint.priority=="Medium" %}
+                                <span class="badge bg-info">Medium</span>
+
+                            {% else %}
+                                <span class="badge bg-secondary">Low</span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if complaint.status=="Pending" %}
+                                <span class="badge bg-secondary">Pending</span>
+
+                            {% elif complaint.status=="Assigned" %}
+                                <span class="badge bg-primary">Assigned</span>
+
+                            {% elif complaint.status=="In Progress" %}
+                                <span class="badge bg-warning text-dark">In Progress</span>
+
+                            {% elif complaint.status=="Resolved" %}
+                                <span class="badge bg-success">Resolved</span>
+
+                            {% else %}
+                                <span class="badge bg-dark">
+                                    {{ complaint.status }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if complaint.assigned_at %}
+                                {{ complaint.assigned_at.strftime("%d %b %Y %I:%M %p") }}
+                            {% else %}
+                                -
+                            {% endif %}
+
+                        </td>
+
+                        <td class="text-center">
+
+                            <a
+                                href="{{ url_for('staff.complaint_details', complaint_id=complaint.id) }}"
+                                class="btn btn-sm btn-primary">
+
+                                View Details
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+                <!-- Pagination -->
+
+        {% if complaints.pages > 1 %}
+
+        <nav class="mt-4">
+
+            <ul class="pagination justify-content-center">
+
+                <!-- Previous -->
+
+                {% if complaints.has_prev %}
+
+                <li class="page-item">
+
+                    <a class="page-link"
+                       href="{{ url_for(
+                            'staff.my_complaints',
+                            page=complaints.prev_num,
+                            search=search,
+                            status=status,
+                            priority=priority
+                       ) }}">
+
+                        Previous
+
+                    </a>
+
+                </li>
+
+                {% else %}
+
+                <li class="page-item disabled">
+
+                    <span class="page-link">
+
+                        Previous
+
+                    </span>
+
+                </li>
+
+                {% endif %}
+
+                <!-- Page Numbers -->
+
+                {% for page_num in complaints.iter_pages(
+                    left_edge=1,
+                    right_edge=1,
+                    left_current=2,
+                    right_current=2
+                ) %}
+
+                    {% if page_num %}
+
+                        {% if page_num == complaints.page %}
+
+                        <li class="page-item active">
+
+                            <span class="page-link">
+
+                                {{ page_num }}
+
+                            </span>
+
+                        </li>
+
+                        {% else %}
+
+                        <li class="page-item">
+
+                            <a class="page-link"
+
+                               href="{{ url_for(
+                                    'staff.my_complaints',
+                                    page=page_num,
+                                    search=search,
+                                    status=status,
+                                    priority=priority
+                               ) }}">
+
+                                {{ page_num }}
+
+                            </a>
+
+                        </li>
+
+                        {% endif %}
+
+                    {% else %}
+
+                    <li class="page-item disabled">
+
+                        <span class="page-link">
+
+                            ...
+
+                        </span>
+
+                    </li>
+
+                    {% endif %}
+
+                {% endfor %}
+
+                <!-- Next -->
+
+                {% if complaints.has_next %}
+
+                <li class="page-item">
+
+                    <a class="page-link"
+
+                       href="{{ url_for(
+                            'staff.my_complaints',
+                            page=complaints.next_num,
+                            search=search,
+                            status=status,
+                            priority=priority
+                       ) }}">
+
+                        Next
+
+                    </a>
+
+                </li>
+
+                {% else %}
+
+                <li class="page-item disabled">
+
+                    <span class="page-link">
+
+                        Next
+
+                    </span>
+
+                </li>
+
+                {% endif %}
+
+            </ul>
+
+        </nav>
+
+        {% endif %}
+
+        {% else %}
+
+        <div class="text-center py-5">
+
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+
+            <h5 class="text-muted">
+
+                No complaints found.
+
+            </h5>
+
+            <p class="text-muted">
+
+                Try changing your search or filter criteria.
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

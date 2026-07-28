@@ -61,7 +61,8 @@ class ComplaintService:
 
             duplicate = IntelligentEngine.is_duplicate(
                 customer_id,
-                title
+                meter_number,
+                description
             )
 
             # ==========================================

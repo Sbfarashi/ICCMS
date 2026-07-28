@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+{% block title %}Engineer Performance{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>
+
+                <i class="fas fa-chart-line text-primary"></i>
+
+                My Performance Dashboard
+
+            </h2>
+
+            <small class="text-muted">
+
+                Performance summary and work statistics
+
+            </small>
+
+        </div>
+
+        <a href="{{ url_for('engineer.dashboard') }}"
+           class="btn btn-secondary">
+
+            <i class="fas fa-arrow-left"></i>
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="row">
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <i class="fas fa-folder-open fa-2x text-primary mb-2"></i>
+
+                    <h3>{{ performance.total_jobs }}</h3>
+
+                    <p>Total Jobs</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <i class="fas fa-spinner fa-2x text-warning mb-2"></i>
+
+                    <h3>{{ performance.open_jobs }}</h3>
+
+                    <p>Open Jobs</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+
+                    <h3>{{ performance.completed_jobs }}</h3>
+
+                    <p>Completed Jobs</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <i class="fas fa-map-marker-alt fa-2x text-danger mb-2"></i>
+
+                    <h3>{{ performance.field_visits }}</h3>
+
+                    <p>Field Visits</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Performance -->
+
+    <div class="card shadow mt-4">
+
+        <div class="card-header bg-primary text-white">
+
+            Performance Summary
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tbody>
+
+                    <tr>
+
+                        <th width="40%">Resolution Rate</th>
+
+                        <td>{{ performance.resolution_rate }}%</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Average Resolution Time</th>
+
+                        <td>{{ performance.average_resolution_time }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Today's Resolved Complaints</th>
+
+                        <td>{{ performance.today_resolved }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Today's Closed Complaints</th>
+
+                        <td>{{ performance.today_closed }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Escalated Complaints</th>
+
+                        <td>{{ performance.escalated }}</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- Recent Activities -->
+
+    <div class="card shadow mt-4">
+
+        <div class="card-header bg-success text-white">
+
+            Recent Activities
+
+        </div>
+
+        <div class="card-body">
+
+            {% if activities %}
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Date</th>
+
+                        <th>Complaint</th>
+
+                        <th>Activity</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for activity in activities %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ activity.created_at.strftime('%d %b %Y %I:%M %p') }}
+
+                        </td>
+
+                        <td>
+
+                            {{ activity.complaint.complaint_number }}
+
+                        </td>
+
+                        <td>
+
+                            {{ activity.action }}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="alert alert-info">
+
+                No recent activities found.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- Quick Actions -->
+
+    <div class="mt-4 text-center">
+
+        <a href="{{ url_for('engineer.my_jobs') }}"
+           class="btn btn-primary">
+
+            <i class="fas fa-tasks"></i>
+
+            My Jobs
+
+        </a>
+
+        <a href="{{ url_for('engineer.my_field_visits') }}"
+           class="btn btn-success">
+
+            <i class="fas fa-map-marker-alt"></i>
+
+            Field Visits
+
+        </a>
+
+        <a href="{{ url_for('engineer.profile') }}"
+           class="btn btn-info">
+
+            <i class="fas fa-user"></i>
+
+            My Profile
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

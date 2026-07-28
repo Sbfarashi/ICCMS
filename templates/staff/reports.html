@@ -1,0 +1,671 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Complaint Reports{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- ====================================== -->
+    <!-- Header -->
+    <!-- ====================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="fas fa-chart-bar text-primary me-2"></i>
+
+                Complaint Reports
+
+            </h2>
+
+            <small class="text-muted">
+
+                Complaint statistics and operational performance overview
+
+            </small>
+
+        </div>
+
+        <button class="btn btn-success">
+
+            <i class="fas fa-download me-2"></i>
+
+            Export Report
+
+        </button>
+
+    </div>
+
+    <!-- ====================================== -->
+    <!-- Summary Cards -->
+    <!-- ====================================== -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h2 class="text-primary">
+
+                        {{ total_complaints }}
+
+                    </h2>
+
+                    <p class="mb-0">
+
+                        Total Complaints
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h2 class="text-warning">
+
+                        {{ pending_complaints }}
+
+                    </h2>
+
+                    <p class="mb-0">
+
+                        Pending
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h2 class="text-success">
+
+                        {{ resolved_complaints }}
+
+                    </h2>
+
+                    <p class="mb-0">
+
+                        Resolved
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h2 class="text-danger">
+
+                        {{ escalated_complaints }}
+
+                    </h2>
+
+                    <p class="mb-0">
+
+                        Escalated
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ====================================== -->
+    <!-- Category Statistics -->
+    <!-- ====================================== -->
+
+    <div class="row">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Complaint Categories
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-hover">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Category</th>
+
+                                <th class="text-end">Total</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for category in category_statistics %}
+
+                            <tr>
+
+                                <td>
+
+                                    {{ category.name }}
+
+                                </td>
+
+                                <td class="text-end">
+
+                                    <span class="badge bg-primary">
+
+                                        {{ category.total }}
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ====================================== -->
+        <!-- Priority Statistics -->
+        <!-- ====================================== -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Priority Distribution
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-hover">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Priority</th>
+
+                                <th class="text-end">Count</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+
+                                    Critical
+
+                                </td>
+
+                                <td class="text-end">
+
+                                    <span class="badge bg-danger">
+
+                                        {{ critical_count }}
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>
+
+                                    High
+
+                                </td>
+
+                                <td class="text-end">
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        {{ high_count }}
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>
+
+                                    Medium
+
+                                </td>
+
+                                <td class="text-end">
+
+                                    <span class="badge bg-primary">
+
+                                        {{ medium_count }}
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>
+
+                                    Low
+
+                                </td>
+
+                                <td class="text-end">
+
+                                    <span class="badge bg-success">
+
+                                        {{ low_count }}
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+                                                    </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ====================================== -->
+    <!-- Recent Complaint Activity -->
+    <!-- ====================================== -->
+
+    <div class="row">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                    <h5 class="mb-0">
+
+                        <i class="fas fa-history text-primary me-2"></i>
+
+                        Recent Complaint Activity
+
+                    </h5>
+
+                    <span class="badge bg-primary">
+
+                        {{ recent_complaints|length }}
+
+                    </span>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if recent_complaints %}
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead class="table-light">
+
+                                <tr>
+
+                                    <th>Complaint No.</th>
+
+                                    <th>Customer</th>
+
+                                    <th>Status</th>
+
+                                    <th>Priority</th>
+
+                                    <th>Date</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for complaint in recent_complaints %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <a href="{{ url_for('staff.complaint_details',
+                                                            complaint_id=complaint.id) }}">
+
+                                            {{ complaint.complaint_number }}
+
+                                        </a>
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ complaint.customer.full_name }}
+
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge bg-secondary">
+
+                                            {{ complaint.status }}
+
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        {% if complaint.priority == "Critical" %}
+
+                                            <span class="badge bg-danger">
+
+                                                Critical
+
+                                            </span>
+
+                                        {% elif complaint.priority == "High" %}
+
+                                            <span class="badge bg-warning text-dark">
+
+                                                High
+
+                                            </span>
+
+                                        {% elif complaint.priority == "Medium" %}
+
+                                            <span class="badge bg-primary">
+
+                                                Medium
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge bg-success">
+
+                                                Low
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ complaint.created_at.strftime("%d %b %Y") }}
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="text-center py-5">
+
+                        <i class="fas fa-folder-open fa-4x text-muted mb-3"></i>
+
+                        <h5>No Recent Complaints</h5>
+
+                        <p class="text-muted">
+
+                            No complaint records are available.
+
+                        </p>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ====================================== -->
+        <!-- Performance Summary -->
+        <!-- ====================================== -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        <i class="fas fa-chart-line text-success me-2"></i>
+
+                        Performance Summary
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-3">
+
+                        <div class="d-flex justify-content-between">
+
+                            <span>Total Complaints</span>
+
+                            <strong>{{ total_complaints }}</strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <div class="d-flex justify-content-between">
+
+                            <span>Resolved</span>
+
+                            <strong>{{ resolved_complaints }}</strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <div class="d-flex justify-content-between">
+
+                            <span>Pending</span>
+
+                            <strong>{{ pending_complaints }}</strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <div class="d-flex justify-content-between">
+
+                            <span>Escalated</span>
+
+                            <strong>{{ escalated_complaints }}</strong>
+
+                        </div>
+
+                    </div>
+
+                    {% if total_complaints > 0 %}
+
+                    <hr>
+
+                    <div class="text-center">
+
+                        <h6 class="text-muted">
+
+                            Resolution Rate
+
+                        </h6>
+
+                        <h2 class="text-success">
+
+                            {{ ((resolved_complaints / total_complaints) * 100)|round(1) }}%
+
+                        </h2>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <!-- ====================================== -->
+            <!-- Report Information -->
+            <!-- ====================================== -->
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        <i class="fas fa-file-alt text-info me-2"></i>
+
+                        Report Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p>
+
+                        This report provides an overview of complaint handling,
+                        including complaint distribution, priority analysis,
+                        escalation status, and operational performance.
+
+                    </p>
+
+                    <hr>
+
+                    <p class="mb-1">
+
+                        <strong>Generated:</strong>
+
+                    </p>
+
+                    <p class="text-muted">
+
+                        {{ current_date.strftime("%d %B %Y %I:%M %p") }}
+
+                    </p>
+
+                    <div class="d-grid">
+
+                        <button class="btn btn-outline-primary">
+
+                            <i class="fas fa-print me-2"></i>
+
+                            Print Report
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

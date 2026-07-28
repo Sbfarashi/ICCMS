@@ -10,9 +10,13 @@
     <div class="topbar-left">
 
         <h3 class="topbar-title">
+
             {% block page_title %}
+
                 Intelligent Customer Complaint Management System
+
             {% endblock %}
+
         </h3>
 
     </div>
@@ -21,44 +25,137 @@
 
     <div class="topbar-right">
 
-        <!-- Notification -->
+        <!-- ========================= -->
+        <!-- Notifications -->
+        <!-- ========================= -->
 
-        <div class="topbar-icon">
+        <a href="{{ url_for('notification.notifications') }}"
+           class="topbar-icon text-decoration-none position-relative">
 
             <i class="bi bi-bell-fill"></i>
 
-            <span class="notification-badge">3</span>
+            {% if unread_notifications > 0 %}
 
-        </div>
+            <span class="notification-badge">
 
-        <!-- Messages -->
+                {{ unread_notifications }}
 
-        <div class="topbar-icon">
+            </span>
+
+            {% endif %}
+
+        </a>
+
+        <!-- ========================= -->
+        <!-- Messages (Future Feature) -->
+        <!-- ========================= -->
+
+        <div class="topbar-icon position-relative">
 
             <i class="bi bi-envelope-fill"></i>
 
-            <span class="notification-badge">5</span>
+            <span class="notification-badge">
+
+                0
+
+            </span>
 
         </div>
 
-        <!-- User -->
+        <!-- ========================= -->
+        <!-- User Profile -->
+        <!-- ========================= -->
 
-        <div class="profile">
+        <div class="dropdown">
 
-            <img src="{{ url_for('static', filename='images/logo.jpg') }}"
-                 alt="Profile">
+            <a class="d-flex align-items-center text-decoration-none dropdown-toggle"
+               href="#"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">
 
-            <div>
+                <img src="{{ url_for('static', filename='uploads/profile_pictures/' ~ session.get('profile_picture', 'default_avatar.png')) }}"
+                     alt="Profile"
+                     width="45"
+                     height="45"
+                     class="rounded-circle border">
 
-                <h6>
-                    {{ session.get('full_name', session.get('user_name', 'User')) }}
-                </h6>
+                <div class="ms-2">
 
-                <span>
-                    {{ session.get('role', 'Customer')|title }}
-                </span>
+                    <h6 class="mb-0">
 
-            </div>
+                        {{ session.get('full_name', session.get('user_name', 'User')) }}
+
+                    </h6>
+
+                    <small class="text-muted">
+
+                        {{ session.get('role', 'Customer')|title }}
+
+                    </small>
+
+                </div>
+
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+
+                <li>
+
+                    <a class="dropdown-item"
+                       href="{{ url_for('engineer.profile') }}">
+
+                        <i class="bi bi-person-circle"></i>
+
+                        My Profile
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a class="dropdown-item"
+                       href="{{ url_for('notification.notifications') }}">
+
+                        <i class="bi bi-bell"></i>
+
+                        Notifications
+
+                        {% if unread_notifications > 0 %}
+
+                        <span class="badge bg-danger float-end">
+
+                            {{ unread_notifications }}
+
+                        </span>
+
+                        {% endif %}
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <hr class="dropdown-divider">
+
+                </li>
+
+                <li>
+
+                    <a class="dropdown-item text-danger"
+                       href="{{ url_for('auth.logout') }}">
+
+                        <i class="bi bi-box-arrow-right"></i>
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+            </ul>
 
         </div>
 

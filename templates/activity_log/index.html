@@ -1,0 +1,100 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Activity Log{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4 class="mb-0">
+
+                Activity Log
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if logs %}
+
+            <div class="table-responsive">
+
+                <table class="table table-striped table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>User ID</th>
+                            <th>Module</th>
+                            <th>Activity</th>
+                            <th>IP Address</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for log in logs %}
+
+                        <tr>
+
+                            <td>{{ loop.index }}</td>
+
+                            <td>
+
+                                {{ log.created_at.strftime('%d %b %Y %I:%M %p') }}
+
+                            </td>
+
+                            <td>{{ log.user.full_name }}</td>
+
+                            <td>
+
+                                <span class="badge bg-info">
+
+                                    {{ log.module }}
+
+                                </span>
+
+                            </td>
+
+                            <td>{{ log.activity }}</td>
+
+                            <td>{{ log.ip_address }}</td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info">
+
+                No activity logs available.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

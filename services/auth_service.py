@@ -20,7 +20,6 @@ class AuthService:
 
         try:
 
-            # Check Email
             existing_email = User.query.filter_by(
                 email=form.email.data.strip().lower()
             ).first()
@@ -28,7 +27,6 @@ class AuthService:
             if existing_email:
                 return False, "Email address already exists."
 
-            # Check Phone
             existing_phone = User.query.filter_by(
                 phone=form.phone.data.strip()
             ).first()
@@ -36,12 +34,10 @@ class AuthService:
             if existing_phone:
                 return False, "Phone number already exists."
 
-            # Hash Password
             hashed_password = bcrypt.generate_password_hash(
                 form.password.data
             ).decode("utf-8")
 
-            # Create User
             user = User(
                 full_name=form.full_name.data.strip(),
                 email=form.email.data.strip().lower(),
@@ -73,31 +69,21 @@ class AuthService:
             email = form.email.data.strip().lower()
             password = form.password.data
 
-            user = User.query.filter_by(email=email).first()
+            user = User.query.filter_by(
+                email=email
+            ).first()
 
             if user is None:
                 return False, "Invalid email or password.", None
 
-            if not bcrypt.check_password_hash(user.password, password):
+            if not bcrypt.check_password_hash(
+                user.password,
+                password
+            ):
                 return False, "Invalid email or password.", None
 
             if not user.is_active:
                 return False, "Your account has been deactivated.", None
-
-            # ==========================================
-            # DEBUG INFORMATION
-            # ==========================================
-
-            print("\n================ LOGIN DEBUG ================")
-            print(f"User ID      : {user.id}")
-            print(f"Full Name    : {user.full_name}")
-            print(f"Email        : {user.email}")
-            print(f"Role         : {user.role}")
-            print("=============================================\n")
-
-            # ==========================================
-            # CREATE SESSION
-            # ==========================================
 
             session.clear()
 
@@ -108,11 +94,6 @@ class AuthService:
             session["role"] = user.role
             session["logged_in"] = True
 
-            print("\n============= SESSION DEBUG =================")
-            print(dict(session))
-            print("=============================================\n")
-
-            # Update Last Login
             user.last_login = datetime.utcnow()
 
             db.session.commit()
@@ -132,6 +113,48 @@ class AuthService:
                 f"Login failed: {str(e)}",
                 None
             )
+
+    # ===================================================
+    # CHANGE PASSWORD
+    # ===================================================
+
+    @staticmethod
+    def change_password(user_id, form):
+
+        try:
+
+            user = User.query.filter_by(
+                id=user_id
+            ).first()
+
+            if user is None:
+                return False, "User not found."
+
+            if not bcrypt.check_password_hash(
+                user.password,
+                form.current_password.data
+            ):
+                return False, "Current password is incorrect."
+
+            if form.current_password.data == form.new_password.data:
+                return (
+                    False,
+                    "New password must be different from the current password."
+                )
+
+            user.password = bcrypt.generate_password_hash(
+                form.new_password.data
+            ).decode("utf-8")
+
+            db.session.commit()
+
+            return True, "Password changed successfully."
+
+        except Exception as e:
+
+            db.session.rollback()
+
+            return False, f"Password change failed: {str(e)}"
 
     # ===================================================
     # LOGOUT USER

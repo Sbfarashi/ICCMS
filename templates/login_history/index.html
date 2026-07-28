@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Login History{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 pt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4 class="mb-0">
+
+                Login History
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if history %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>#</th>
+                            <th>Login Time</th>
+                            <th>Logout Time</th>
+                            <th>IP Address</th>
+                            <th>Browser</th>
+                            <th>Operating System</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for item in history %}
+
+                        <tr>
+
+                            <td>{{ loop.index }}</td>
+
+                            <td>
+
+                                {{ item.login_time.strftime('%d %b %Y %I:%M %p') }}
+
+                            </td>
+
+                            <td>
+
+                                {% if item.logout_time %}
+
+                                    {{ item.logout_time.strftime('%d %b %Y %I:%M %p') }}
+
+                                {% else %}
+
+                                    <span class="badge bg-success">
+
+                                        Active Session
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>{{ item.ip_address }}</td>
+
+                            <td>{{ item.browser }}</td>
+
+                            <td>{{ item.operating_system }}</td>
+
+                            <td>
+
+                                <span class="badge bg-primary">
+
+                                    {{ item.login_status }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info">
+
+                No login history found.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

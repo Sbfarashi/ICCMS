@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+
+{% block title %}Resolution Report{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-10">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h2>
+
+                        <i class="fas fa-file-alt text-primary"></i>
+
+                        Resolution Report
+
+                    </h2>
+
+                    <small class="text-muted">
+
+                        Complaint Number:
+                        {{ complaint.complaint_number }}
+
+                    </small>
+
+                </div>
+
+                <a href="{{ url_for('engineer.complaint_details',
+                                    complaint_id=complaint.id) }}"
+                   class="btn btn-secondary">
+
+                    <i class="fas fa-arrow-left"></i>
+
+                    Back
+
+                </a>
+
+            </div>
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    Complaint Summary
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Customer</strong><br>
+
+                            {{ complaint.customer.full_name }}
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Meter Number</strong><br>
+
+                            {{ complaint.meter_number }}
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Category</strong><br>
+
+                            {{ complaint.category.name }}
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Priority</strong><br>
+
+                            {{ complaint.priority }}
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <strong>Complaint Description</strong>
+
+                    <div class="alert alert-light">
+
+                        {{ complaint.description }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <br>
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    Resolution Details
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Root Cause
+
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                name="root_cause"
+                                rows="4"
+                                required>{{ complaint.root_cause if complaint.root_cause else '' }}</textarea>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Corrective Action Taken
+
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                name="corrective_action"
+                                rows="5"
+                                required></textarea>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Resolution
+
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                name="resolution"
+                                rows="6"
+                                required>{{ complaint.resolution if complaint.resolution else '' }}</textarea>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Recommendation
+
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                name="recommendation"
+                                rows="4"></textarea>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Resolution Date
+
+                                </label>
+
+                                <input
+                                    type="date"
+                                    class="form-control"
+                                    name="resolution_date"
+                                    required>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Final Status
+
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    name="status">
+
+                                    <option value="Resolved">
+
+                                        Resolved
+
+                                    </option>
+
+                                    <option value="Closed">
+
+                                        Closed
+
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a href="{{ url_for('engineer.complaint_details',
+                                                complaint_id=complaint.id) }}"
+                               class="btn btn-secondary">
+
+                                Cancel
+
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-success">
+
+                                <i class="fas fa-save"></i>
+
+                                Save Resolution Report
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

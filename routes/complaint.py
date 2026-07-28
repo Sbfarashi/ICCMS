@@ -12,6 +12,7 @@ from models.category import Category
 from models.complaint import Complaint
 
 from services.complaint_service import ComplaintService
+from services.activity_log_service import ActivityLogService
 
 complaint = Blueprint(
     "complaint",
@@ -76,6 +77,14 @@ def submit_complaint():
             location=location
 
         )
+
+        if success:
+
+            ActivityLogService.log(
+                user_id=session["user_id"],
+                activity="Submitted a new complaint",
+                module="Complaint Management"
+            )
 
         flash(
 

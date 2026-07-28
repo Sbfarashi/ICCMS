@@ -1,84 +1,81 @@
 {% extends "layouts/dashboard.html" %}
 
-{% block title %}
-Staff Dashboard
-{% endblock %}
+{% block title %}Staff Dashboard{% endblock %}
 
 {% block content %}
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
+    <!-- ============================= -->
+    <!-- Welcome Section -->
+    <!-- ============================= -->
 
-    <div class="row mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
 
-        <div class="col-md-8">
+        <div>
 
-            <h2 class="fw-bold">
-
+            <h2 class="fw-bold mb-1">
+                <i class="fas fa-user-shield text-primary me-2"></i>
                 Staff Dashboard
-
             </h2>
 
-            <p class="text-muted">
-
-                Manage assigned customer complaints and monitor performance.
-
+            <p class="text-muted mb-0">
+                Welcome back,
+                <strong>{{ session.full_name }}</strong>.
+                Manage customer complaints, assignments and resolutions.
             </p>
+
+        </div>
+
+        <div>
+
+            <a href="{{ url_for('staff.my_complaints') }}"
+               class="btn btn-primary">
+
+                <i class="fas fa-list me-2"></i>
+                My Assigned Complaints
+
+            </a>
 
         </div>
 
     </div>
 
-    <!-- Statistics -->
+    <!-- ============================= -->
+    <!-- KPI Cards -->
+    <!-- ============================= -->
 
     <div class="row g-4 mb-4">
 
         <div class="col-lg-3 col-md-6">
 
-            <div class="card">
+            <div class="card shadow-sm border-0 h-100">
 
-                <div class="card-body text-center">
+                <div class="card-body">
 
-                    <i class="bi bi-folder-check display-5 text-primary"></i>
+                    <div class="d-flex justify-content-between">
 
-                    <h2 class="mt-3">
+                        <div>
 
-                        {{ assigned_complaints }}
+                            <small class="text-muted">
+                                Total Complaints
+                            </small>
 
-                    </h2>
+                            <h2 class="fw-bold mt-2">
 
-                    <p class="text-muted">
+                                {{ statistics.total }}
 
-                        Assigned Complaints
+                            </h2>
 
-                    </p>
+                        </div>
 
-                </div>
+                        <div class="fs-2 text-primary">
 
-            </div>
+                            <i class="fas fa-folder-open"></i>
 
-        </div>
+                        </div>
 
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card">
-
-                <div class="card-body text-center">
-
-                    <i class="bi bi-hourglass-split display-5 text-warning"></i>
-
-                    <h2 class="mt-3">
-
-                        {{ pending_complaints }}
-
-                    </h2>
-
-                    <p class="text-muted">
-
-                        Pending
-
-                    </p>
+                    </div>
 
                 </div>
 
@@ -88,23 +85,33 @@ Staff Dashboard
 
         <div class="col-lg-3 col-md-6">
 
-            <div class="card">
+            <div class="card shadow-sm border-0 h-100">
 
-                <div class="card-body text-center">
+                <div class="card-body">
 
-                    <i class="bi bi-check-circle display-5 text-success"></i>
+                    <div class="d-flex justify-content-between">
 
-                    <h2 class="mt-3">
+                        <div>
 
-                        {{ resolved_complaints }}
+                            <small class="text-muted">
+                                Pending
+                            </small>
 
-                    </h2>
+                            <h2 class="fw-bold text-warning mt-2">
 
-                    <p class="text-muted">
+                                {{ statistics.pending }}
 
-                        Resolved
+                            </h2>
 
-                    </p>
+                        </div>
+
+                        <div class="fs-2 text-warning">
+
+                            <i class="fas fa-clock"></i>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
@@ -114,23 +121,69 @@ Staff Dashboard
 
         <div class="col-lg-3 col-md-6">
 
-            <div class="card">
+            <div class="card shadow-sm border-0 h-100">
 
-                <div class="card-body text-center">
+                <div class="card-body">
 
-                    <i class="bi bi-exclamation-triangle display-5 text-danger"></i>
+                    <div class="d-flex justify-content-between">
 
-                    <h2 class="mt-3">
+                        <div>
 
-                        {{ overdue_complaints }}
+                            <small class="text-muted">
+                                In Progress
+                            </small>
 
-                    </h2>
+                            <h2 class="fw-bold text-info mt-2">
 
-                    <p class="text-muted">
+                                {{ statistics.in_progress }}
 
-                        Overdue
+                            </h2>
 
-                    </p>
+                        </div>
+
+                        <div class="fs-2 text-info">
+
+                            <i class="fas fa-spinner"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <small class="text-muted">
+                                Critical
+                            </small>
+
+                            <h2 class="fw-bold text-danger mt-2">
+
+                                {{ statistics.critical }}
+
+                            </h2>
+
+                        </div>
+
+                        <div class="fs-2 text-danger">
+
+                            <i class="fas fa-exclamation-triangle"></i>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
@@ -140,119 +193,300 @@ Staff Dashboard
 
     </div>
 
-    <!-- Assigned Complaints -->
+    <div class="row">
 
-    <div class="card">
+        <!-- ============================= -->
+        <!-- Recent Complaints -->
+        <!-- ============================= -->
 
-        <div class="card-header">
+        <div class="col-lg-8">
 
-            Assigned Complaints
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                    <h5 class="mb-0">
+
+                        <i class="fas fa-ticket-alt me-2"></i>
+
+                        Recent Complaints
+
+                    </h5>
+
+                    <span class="badge bg-primary">
+
+                        {{ complaints|length }}
+
+                    </span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Complaint</th>
+
+                                    <th>Customer</th>
+
+                                    <th>Priority</th>
+
+                                    <th>Status</th>
+
+                                    <th>Date</th>
+
+                                    <th></th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                            {% for complaint in complaints %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <strong>
+
+                                            {{ complaint.complaint_number }}
+
+                                        </strong>
+
+                                        <br>
+
+                                        <small class="text-muted">
+
+                                            {{ complaint.category.name }}
+
+                                        </small>
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ complaint.customer.full_name }}
+
+                                    </td>
+
+                                    <td>
+
+                                        {% if complaint.priority == "Critical" %}
+
+                                            <span class="badge bg-danger">
+
+                                        {% elif complaint.priority == "High" %}
+
+                                            <span class="badge bg-warning text-dark">
+
+                                        {% elif complaint.priority == "Medium" %}
+
+                                            <span class="badge bg-primary">
+
+                                        {% else %}
+
+                                            <span class="badge bg-success">
+
+                                        {% endif %}
+
+                                            {{ complaint.priority }}
+
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        {% if complaint.status == "Resolved" %}
+
+                                            <span class="badge bg-success">
+
+                                        {% elif complaint.status == "Closed" %}
+
+                                            <span class="badge bg-dark">
+
+                                        {% elif complaint.status == "In Progress" %}
+
+                                            <span class="badge bg-info">
+
+                                        {% elif complaint.status == "Assigned" %}
+
+                                            <span class="badge bg-primary">
+
+                                        {% else %}
+
+                                            <span class="badge bg-secondary">
+
+                                        {% endif %}
+
+                                            {{ complaint.status }}
+
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ complaint.created_at.strftime("%d %b %Y") }}
+
+                                    </td>
+
+                                    <td>
+
+                                        <a href="{{ url_for('staff.complaint_details', complaint_id=complaint.id) }}"
+                                           class="btn btn-sm btn-outline-primary">
+
+                                            <i class="fas fa-eye"></i>
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                            {% else %}
+
+                                <tr>
+
+                                    <td colspan="6" class="text-center text-muted py-5">
+
+                                        No complaints available.
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
-        <div class="card-body">
+        <!-- ============================= -->
+        <!-- Quick Actions -->
+        <!-- ============================= -->
 
-            <div class="table-responsive">
+        <div class="col-lg-4">
 
-                <table class="table table-hover">
+            <div class="card shadow-sm border-0 mb-4">
 
-                    <thead>
+                <div class="card-header bg-white">
 
-                        <tr>
+                    <h5 class="mb-0">
 
-                            <th>Complaint No</th>
+                        <i class="fas fa-bolt me-2"></i>
 
-                            <th>Customer</th>
+                        Quick Actions
 
-                            <th>Category</th>
+                    </h5>
 
-                            <th>Priority</th>
+                </div>
 
-                            <th>Status</th>
+                <div class="card-body d-grid gap-3">
 
-                            <th>Date</th>
+                    <a href="{{ url_for('staff.my_complaints') }}"
+                       class="btn btn-outline-primary">
 
-                            <th>Action</th>
+                        <i class="fas fa-list me-2"></i>
 
-                        </tr>
+                        My Assigned Complaints
 
-                    </thead>
+                    </a>
 
-                    <tbody>
+                    <a href="{{ url_for('staff.dashboard') }}"
+                       class="btn btn-outline-success">
 
-                    {% if complaints %}
+                        <i class="fas fa-sync-alt me-2"></i>
 
-                        {% for complaint in complaints %}
+                        Refresh Dashboard
 
-                        <tr>
+                    </a>
 
-                            <td>{{ complaint.complaint_number }}</td>
+                </div>
 
-                            <td>{{ complaint.customer.full_name }}</td>
+            </div>
 
-                            <td>{{ complaint.category.name }}</td>
+            <div class="card shadow-sm border-0">
 
-                            <td>
+                <div class="card-header bg-white">
 
-                                <span class="badge bg-warning">
+                    <h5 class="mb-0">
 
-                                    {{ complaint.priority }}
+                        <i class="fas fa-chart-pie me-2"></i>
 
-                                </span>
+                        Complaint Summary
 
-                            </td>
+                    </h5>
 
-                            <td>
+                </div>
 
-                                <span class="badge bg-success">
+                <div class="card-body">
 
-                                    {{ complaint.status }}
+                    <div class="mb-3">
 
-                                </span>
+                        <strong>Total</strong>
 
-                            </td>
+                        <span class="float-end">
 
-                            <td>
+                            {{ statistics.total }}
 
-                                {{ complaint.created_at.strftime("%d %b %Y") }}
+                        </span>
 
-                            </td>
+                    </div>
 
-                            <td>
+                    <div class="mb-3">
 
-                                <a href="#"
+                        <strong>Assigned</strong>
 
-                                   class="btn btn-sm btn-primary">
+                        <span class="float-end">
 
-                                    Open
+                            {{ statistics.assigned }}
 
-                                </a>
+                        </span>
 
-                            </td>
+                    </div>
 
-                        </tr>
+                    <div class="mb-3">
 
-                        {% endfor %}
+                        <strong>Resolved</strong>
 
-                    {% else %}
+                        <span class="float-end text-success">
 
-                        <tr>
+                            {{ statistics.resolved }}
 
-                            <td colspan="7"
+                        </span>
 
-                                class="text-center">
+                    </div>
 
-                                No assigned complaints.
+                    <div>
 
-                            </td>
+                        <strong>Closed</strong>
 
-                        </tr>
+                        <span class="float-end">
 
-                    {% endif %}
+                            {{ statistics.closed }}
 
-                    </tbody>
+                        </span>
 
-                </table>
+                    </div>
+
+                </div>
 
             </div>
 

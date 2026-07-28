@@ -1,0 +1,94 @@
+<div class="col-md-2 bg-dark text-white min-vh-100">
+
+    <div class="p-3">
+
+        <h4 class="text-center">
+
+            ICCMS
+
+        </h4>
+
+        <hr>
+
+        <ul class="nav flex-column">
+
+            <li class="nav-item">
+
+                <a class="nav-link text-white"
+                   href="{{ url_for('customer.dashboard') }}">
+
+                    <i class="bi bi-speedometer2"></i>
+
+                    Dashboard
+
+                </a>
+
+            </li>
+
+            <li class="nav-item">
+
+                <a class="nav-link text-white"
+                   href="{{ url_for('customer.profile') }}">
+
+                    <i class="bi bi-person"></i>
+
+                    My Profile
+
+                </a>
+
+            </li>
+
+            <li class="nav-item">
+
+                <a class="nav-link text-white"
+                   href="{{ url_for('notification.index') }}">
+
+                    <i class="bi bi-bell"></i>
+
+                    Notifications
+
+                    {% if unread_notifications > 0 %}
+
+                        <span class="badge bg-danger">
+
+                            {{ unread_notifications }}
+
+                        </span>
+
+                    {% endif %}
+
+                </a>
+
+            </li>
+
+            <li class="nav-item">
+
+                <a class="nav-link text-white"
+                   href="{{ url_for('login_history.index') }}">
+
+                    <i class="bi bi-clock-history"></i>
+
+                    Login History
+
+                </a>
+
+            </li>
+
+            <li class="nav-item">
+
+                <a class="nav-link text-white"
+                   href="{{ url_for('auth.logout') }}">
+
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    Logout
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "layouts/dashboard.html" %}
 
 {% block title %}
 Administrator Dashboard
@@ -502,6 +502,62 @@ Administrator Dashboard
 
     </div>
 
+    <div class="row">
+
+    <div class="col-lg-6 mb-4">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-info text-white">
+                Monthly Complaints
+            </div>
+
+            <div class="card-body">
+                <canvas id="monthlyChart"></canvas>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6 mb-4">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-secondary text-white">
+                Complaint Categories
+            </div>
+
+            <div class="card-body">
+                <canvas id="categoryChart"></canvas>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12 mb-4">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-dark text-white">
+                Staff Performance
+            </div>
+
+            <div class="card-body">
+                <canvas id="staffChart"></canvas>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 
     <!-- ========================================= -->
     <!-- RECENT COMPLAINTS -->
@@ -631,105 +687,86 @@ Administrator Dashboard
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+    
+const status = {{ status|tojson }};
+const priority = {{ priority|tojson }};
+const monthly = {{ monthly|tojson }};
+const category = {{ category|tojson }};
+const staff = {{ staff|tojson }};
 
-const statusLabels = [
-{% for item in status %}
-"{{ item.status }}",
-{% endfor %}
-];
+// Status
+new Chart(document.getElementById("statusChart"), {
+    type: "bar",
+    data: {
+        labels: status.map(x => x.status),
+        datasets: [{
+            label: "Complaints",
+            data: status.map(x => x.total)
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
 
-const statusData = [
-{% for item in status %}
-{{ item.total }},
-{% endfor %}
-];
+// Priority
+new Chart(document.getElementById("priorityChart"), {
+    type: "pie",
+    data: {
+        labels: priority.map(x => x.priority),
+        datasets: [{
+            data: priority.map(x => x.total)
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
 
-new Chart(
+// Monthly
+new Chart(document.getElementById("monthlyChart"), {
+    type: "line",
+    data: {
+        labels: monthly.map(x => x.month),
+        datasets: [{
+            label: "Complaints",
+            data: monthly.map(x => x.total)
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
 
-document.getElementById("statusChart"),
+// Categories
+new Chart(document.getElementById("categoryChart"), {
+    type: "doughnut",
+    data: {
+        labels: category.map(x => x.category),
+        datasets: [{
+            data: category.map(x => x.total)
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
 
-{
-
-type: "bar",
-
-data: {
-
-labels: statusLabels,
-
-datasets: [{
-
-label: "Complaints",
-
-data: statusData
-
-}]
-
-},
-
-options: {
-
-responsive: true,
-
-plugins: {
-
-legend: {
-
-display: false
-
-}
-
-}
-
-}
-
-}
-
-);
-
-const priorityLabels = [
-{% for item in priority %}
-"{{ item.priority }}",
-{% endfor %}
-];
-
-const priorityData = [
-{% for item in priority %}
-{{ item.total }},
-{% endfor %}
-];
-
-new Chart(
-
-document.getElementById("priorityChart"),
-
-{
-
-type: "pie",
-
-data: {
-
-labels: priorityLabels,
-
-datasets: [{
-
-data: priorityData
-
-}]
-
-},
-
-options: {
-
-responsive: true
-
-}
-
-}
-
-);
+// Staff Performance
+new Chart(document.getElementById("staffChart"), {
+    type: "bar",
+    data: {
+        labels: staff.map(x => x.staff),
+        datasets: [{
+            label: "Resolved",
+            data: staff.map(x => x.total)
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
 
 </script>
-
-</div>
 
 {% endblock %}

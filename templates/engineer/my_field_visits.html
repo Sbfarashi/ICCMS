@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}My Field Visits{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>
+
+                <i class="fas fa-map-marker-alt text-success"></i>
+
+                My Field Visits
+
+            </h2>
+
+            <small class="text-muted">
+
+                View all field visit reports submitted by you.
+
+            </small>
+
+        </div>
+
+        <a href="{{ url_for('engineer.dashboard') }}"
+           class="btn btn-secondary">
+
+            <i class="fas fa-arrow-left"></i>
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+
+            Field Visit Records
+
+        </div>
+
+        <div class="card-body">
+
+            {% if visits %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover table-bordered align-middle">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Date</th>
+                            <th>Complaint No.</th>
+                            <th>Customer</th>
+                            <th>Meter No.</th>
+                            <th>Arrival</th>
+                            <th>Departure</th>
+                            <th>Meter Replaced</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for visit in visits %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ visit.visit_date }}
+
+                        </td>
+
+                        <td>
+
+                            {{ visit.complaint.complaint_number }}
+
+                        </td>
+
+                        <td>
+
+                            {{ visit.complaint.customer.full_name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ visit.complaint.meter_number }}
+
+                        </td>
+
+                        <td>
+
+                            {{ visit.arrival_time }}
+
+                        </td>
+
+                        <td>
+
+                            {{ visit.departure_time }}
+
+                        </td>
+
+                        <td>
+
+                            {% if visit.meter_replaced %}
+
+                            <span class="badge bg-success">
+
+                                Yes
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-secondary">
+
+                                No
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ url_for('engineer.view_field_visit',
+                                                visit_id=visit.id) }}"
+                               class="btn btn-sm btn-primary">
+
+                                <i class="fas fa-eye"></i>
+
+                            </a>
+
+                            <a href="{{ url_for('engineer.edit_field_visit',
+                                                visit_id=visit.id) }}"
+                               class="btn btn-sm btn-warning">
+
+                                <i class="fas fa-edit"></i>
+
+                            </a>
+
+                            <a href="{{ url_for('engineer.delete_field_visit',
+                                                visit_id=visit.id) }}"
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('Delete this field visit?')">
+
+                                <i class="fas fa-trash"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="text-center py-5">
+
+                <i class="fas fa-map-marker-alt fa-4x text-muted mb-3"></i>
+
+                <h5>No Field Visits Found</h5>
+
+                <p class="text-muted">
+
+                    You have not submitted any field visit reports yet.
+
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

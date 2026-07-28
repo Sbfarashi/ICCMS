@@ -1,0 +1,494 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Escalated Complaints{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- ====================================== -->
+    <!-- Page Header -->
+    <!-- ====================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="fas fa-exclamation-triangle text-danger me-2"></i>
+
+                Escalated Complaints
+
+            </h2>
+
+            <small class="text-muted">
+
+                Complaints requiring urgent management attention
+
+            </small>
+
+        </div>
+
+        <a href="{{ url_for('staff.dashboard') }}"
+           class="btn btn-secondary">
+
+            <i class="fas fa-arrow-left me-2"></i>
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+    <!-- ====================================== -->
+    <!-- Statistics -->
+    <!-- ====================================== -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h2 class="text-danger">
+
+                        {{ escalated_complaints|length }}
+
+                    </h2>
+
+                    <p class="mb-0">
+
+                        Escalated Complaints
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h2 class="text-warning">
+
+                        {{ critical_count }}
+
+                    </h2>
+
+                    <p class="mb-0">
+
+                        Critical Priority
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h2 class="text-primary">
+
+                        {{ pending_count }}
+
+                    </h2>
+
+                    <p class="mb-0">
+
+                        Pending
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h2 class="text-success">
+
+                        {{ assigned_count }}
+
+                    </h2>
+
+                    <p class="mb-0">
+
+                        Assigned
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ====================================== -->
+    <!-- Escalated Complaint Table -->
+    <!-- ====================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                <i class="fas fa-list me-2"></i>
+
+                Escalated Complaint List
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if escalated_complaints %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Complaint No.</th>
+
+                            <th>Customer</th>
+
+                            <th>Category</th>
+
+                            <th>Priority</th>
+
+                            <th>Status</th>
+
+                            <th>Escalation Level</th>
+
+                            <th>Assigned To</th>
+
+                            <th>Submitted</th>
+
+                            <th width="170">Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for complaint in escalated_complaints %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+
+                                    {{ complaint.complaint_number }}
+
+                                </strong>
+
+                            </td>
+
+                            <td>
+
+                                {{ complaint.customer.full_name }}
+
+                            </td>
+
+                            <td>
+
+                                {{ complaint.category.name }}
+
+                            </td>
+
+                            <td>
+
+                                {% if complaint.priority=="Critical" %}
+
+                                    <span class="badge bg-danger">
+
+                                        Critical
+
+                                    </span>
+
+                                {% elif complaint.priority=="High" %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        High
+
+                                    </span>
+
+                                {% elif complaint.priority=="Medium" %}
+
+                                    <span class="badge bg-primary">
+
+                                        Medium
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-success">
+
+                                        Low
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ complaint.status }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-danger">
+
+                                    Level {{ complaint.escalation_level }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                {% if complaint.staff %}
+
+                                    {{ complaint.staff.full_name }}
+
+                                {% else %}
+
+                                    <span class="text-muted">
+
+                                        Unassigned
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ complaint.created_at.strftime("%d %b %Y") }}
+
+                            </td>
+
+                            <td>
+
+                                <a href="{{ url_for('staff.complaint_details',
+                                                    complaint_id=complaint.id) }}"
+                                   class="btn btn-sm btn-outline-primary">
+
+                                    <i class="fas fa-eye"></i>
+
+                                </a>
+
+                                <a href="{{ url_for('staff.assign_engineer',
+                                                    complaint_id=complaint.id) }}"
+                                   class="btn btn-sm btn-outline-success">
+
+                                    <i class="fas fa-user-plus"></i>
+
+                                </a>
+
+                                <a href="{{ url_for('staff.update_status',
+                                                    complaint_id=complaint.id) }}"
+                                   class="btn btn-sm btn-outline-warning">
+
+                                    <i class="fas fa-edit"></i>
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+                                            </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="text-center py-5">
+
+                <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+
+                <h4>No Escalated Complaints</h4>
+
+                <p class="text-muted">
+
+                    There are currently no complaints requiring escalation.
+
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- ====================================== -->
+    <!-- Escalation Policy -->
+    <!-- ====================================== -->
+
+    <div class="row mt-4">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        <i class="fas fa-book text-primary me-2"></i>
+
+                        Escalation Policy
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <ul class="mb-0">
+
+                        <li class="mb-3">
+
+                            <strong>Level 1</strong><br>
+
+                            Complaint has exceeded the normal response time and
+                            requires immediate staff attention.
+
+                        </li>
+
+                        <li class="mb-3">
+
+                            <strong>Level 2</strong><br>
+
+                            Complaint remains unresolved after assignment and
+                            should be reviewed by a supervisor.
+
+                        </li>
+
+                        <li class="mb-3">
+
+                            <strong>Level 3</strong><br>
+
+                            Complaint has become critical and requires
+                            management intervention.
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        <i class="fas fa-lightbulb text-warning me-2"></i>
+
+                        Best Practices
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <ul class="mb-0">
+
+                        <li class="mb-2">
+
+                            Assign high-priority complaints immediately.
+
+                        </li>
+
+                        <li class="mb-2">
+
+                            Monitor complaints approaching escalation thresholds.
+
+                        </li>
+
+                        <li class="mb-2">
+
+                            Ensure engineers update complaint progress regularly.
+
+                        </li>
+
+                        <li class="mb-2">
+
+                            Review unresolved complaints during daily operations meetings.
+
+                        </li>
+
+                        <li class="mb-2">
+
+                            Notify supervisors promptly for Level 2 and Level 3 escalations.
+
+                        </li>
+
+                        <li>
+
+                            Keep customers informed throughout the resolution process.
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

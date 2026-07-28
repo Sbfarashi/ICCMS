@@ -1,58 +1,152 @@
-from flask import Blueprint, render_template, session, redirect, url_for
+from flask import (
+    Blueprint,
+    render_template,
+    redirect,
+    url_for,
+    session,
+    flash
+)
 
-from models.notification import Notification
-from models.database import db
+from decorators.auth import login_required
+from services.notification_service import NotificationService
 
 notification = Blueprint(
     "notification",
-    __name__,
-    url_prefix="/notification"
+    __name__
 )
 
 
-@notification.route("/")
-def index():
+# ==========================================================
+# ALL NOTIFICATIONS
+# ==========================================================
 
-    if not session.get("logged_in"):
-        return redirect(url_for("auth.login"))
+@notification.route("/notifications")
+@login_required
+def notifications():
 
-    notifications = (
-        Notification.query
-        .filter_by(user_id=session["user_id"])
-        .order_by(Notification.created_at.desc())
-        .all()
+    notifications = NotificationService.get_notifications(
+
+        session["user_id"]
+
+    )
+
+    unread = NotificationService.unread_count(
+
+        session["user_id"]
+
     )
 
     return render_template(
-        "notification/index.html",
-        notifications=notifications
+
+        "notifications/index.html",
+
+        notifications=notifications,
+
+        unread=unread
+
     )
 
 
-@notification.route("/read/<int:id>")
-def mark_read(id):
+# ==========================================================
+# MARK AS READ
+# ==========================================================
 
-    notification_item = Notification.query.get_or_404(id)
+@notification.route(
+    "/notification/read/<int:notification_id>"
+)
+@login_required
+def mark_read(notification_id):
 
-    if notification_item.user_id == session["user_id"]:
+    NotificationService.mark_as_read(
 
-        notification_item.is_read = True
+        notification_id
 
-        db.session.commit()
-
-    return redirect(url_for("notification.index"))
-
-
-@notification.route("/read-all")
-def read_all():
-
-    Notification.query.filter_by(
-        user_id=session["user_id"],
-        is_read=False
-    ).update(
-        {"is_read": True}
     )
 
-    db.session.commit()
+    flash(
 
-    return redirect(url_for("notification.index"))
+        "Notification marked as read.",
+
+        "success"
+
+    )
+
+    return redirect(
+
+        url_for(
+
+            "notification.notifications"
+
+        )
+
+    )
+
+
+# ==========================================================
+# MARK ALL AS READ
+# ==========================================================
+
+@notification.route(
+    "/notification/read-all"
+)
+@login_required
+def mark_all_read():
+
+    NotificationService.mark_all_as_read(
+
+        session["user_id"]
+
+    )
+
+    flash(
+
+        "All notifications marked as read.",
+
+        "success"
+
+    )
+
+    return redirect(
+
+        url_for(
+
+            "notification.notifications"
+
+        )
+
+    )
+
+
+# ==========================================================
+# DELETE
+# ==========================================================
+
+@notification.route(
+    "/notification/delete/<int:notification_id>"
+)
+@login_required
+def delete_notification(notification_id):
+
+    NotificationService.delete(
+
+        notification_id
+
+    )
+
+    flash(
+
+        "Notification deleted.",
+
+        "success"
+
+    )
+
+    return redirect(
+
+        url_for(
+
+            "notification.notifications"
+
+        )
+
+    )

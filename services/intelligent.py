@@ -1,3 +1,6 @@
+from datetime import datetime, timedelta
+
+from extensions import db
 from models.category import Category
 from models.complaint import Complaint
 
@@ -5,7 +8,7 @@ from models.complaint import Complaint
 class IntelligentEngine:
 
     # ==========================================
-    # Detect Category
+    # Automatic Category Detection
     # ==========================================
 
     @staticmethod
@@ -21,7 +24,8 @@ class IntelligentEngine:
                 "outage",
                 "power failure",
                 "power outage",
-                "electricity"
+                "electricity",
+                "transformer"
             ],
 
             "Meter Fault": [
@@ -30,8 +34,8 @@ class IntelligentEngine:
                 "fault",
                 "damaged",
                 "burnt",
-                "error",
-                "blank screen"
+                "blank",
+                "error"
             ],
 
             "Token Issues": [
@@ -39,22 +43,31 @@ class IntelligentEngine:
                 "recharge",
                 "credit",
                 "units",
-                "rejected token"
-            ],
-
-            "Installation": [
-                "install",
-                "installation",
-                "replace",
-                "replacement"
+                "voucher",
+                "token rejected"
             ],
 
             "Billing": [
-                "billing",
                 "bill",
-                "charged",
+                "billing",
                 "overcharged",
-                "undercharged"
+                "undercharged",
+                "estimated bill"
+            ],
+
+            "Installation": [
+                "installation",
+                "install",
+                "replace",
+                "replacement",
+                "seal"
+            ],
+
+            "Tampering": [
+                "tamper",
+                "illegal connection",
+                "bypass",
+                "stolen meter"
             ]
 
         }
@@ -70,12 +83,21 @@ class IntelligentEngine:
                     ).first()
 
                     if category:
+
                         return category.id
+
+        category = Category.query.filter_by(
+            name="General"
+        ).first()
+
+        if category:
+
+            return category.id
 
         return None
 
     # ==========================================
-    # Assign Priority
+    # Automatic Priority
     # ==========================================
 
     @staticmethod
@@ -87,37 +109,44 @@ class IntelligentEngine:
             "fire",
             "explosion",
             "electric shock",
-            "life",
             "danger",
+            "life",
             "sparking"
         ]
 
         high = [
             "burnt",
             "smoke",
-            "outage",
             "blackout",
+            "power outage",
             "transformer"
         ]
 
         medium = [
             "meter",
             "display",
+            "fault",
             "token",
-            "recharge",
-            "billing"
+            "billing",
+            "installation"
         ]
 
         for word in critical:
+
             if word in text:
+
                 return "Critical"
 
         for word in high:
+
             if word in text:
+
                 return "High"
 
         for word in medium:
+
             if word in text:
+
                 return "Medium"
 
         return "Low"
@@ -127,14 +156,95 @@ class IntelligentEngine:
     # ==========================================
 
     @staticmethod
-    def is_duplicate(customer_id, title):
+    def is_duplicate(
+        customer_id,
+        meter_number,
+        description
+    ):
 
-        complaint = Complaint.query.filter_by(
-            customer_id=customer_id,
-            title=title
-        ).first()
+        complaints = Complaint.query.filter(
 
-        if complaint:
-            return True
+            Complaint.customer_id == customer_id,
+
+            Complaint.meter_number == meter_number,
+
+            Complaint.status.in_(
+
+                [
+
+                    "Pending",
+
+                    "Assigned",
+
+                    "In Progress",
+
+                    "Escalated"
+
+                ]
+
+            )
+
+        ).all()
+
+        description = description.lower()
+
+        for complaint in complaints:
+
+            score = 0
+
+            previous = complaint.description.lower()
+
+            for word in description.split():
+
+                if word in previous:
+
+                    score += 1
+
+            if score >= 3:
+
+                return True
 
         return False
+
+    # ==========================================
+    # Automatic Escalation
+    # ==========================================
+
+    @staticmethod
+    def auto_escalate():
+
+        limit = datetime.utcnow() - timedelta(hours=48)
+
+        complaints = Complaint.query.filter(
+
+            Complaint.status.in_(
+
+                [
+
+                    "Pending",
+
+                    "Assigned",
+
+                    "In Progress"
+
+                ]
+
+            ),
+
+            Complaint.created_at <= limit
+
+        ).all()
+
+        updated = 0
+
+        for complaint in complaints:
+
+            complaint.status = "Escalated"
+
+            complaint.escalation_level += 1
+
+            updated += 1
+
+        db.session.commit()
+
+        return updated

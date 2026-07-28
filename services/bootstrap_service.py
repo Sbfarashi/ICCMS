@@ -1,71 +1,175 @@
-from flask import current_app
-
-from extensions import db
-from extensions import bcrypt
+from extensions import db, bcrypt
 
 from models.user import User
+from models.category import Category
+from models.department import Department
+from models.priority import Priority
+from models.complaint_status import ComplaintStatus
+
 from constants.roles import UserRole
 
 
 class BootstrapService:
 
     @staticmethod
-    def create_user(name, email, phone, password, role):
+    def bootstrap():
+        """
+        Seeds all default system data.
 
-        user = User.query.filter_by(email=email).first()
+        Safe to execute multiple times.
+        """
 
-        if user:
-            return
+        BootstrapService.seed_departments()
+        BootstrapService.seed_categories()
+        BootstrapService.seed_priorities()
+        BootstrapService.seed_statuses()
+        BootstrapService.seed_admin()
 
-        hashed_password = bcrypt.generate_password_hash(
-            password
-        ).decode("utf-8")
-
-        user = User(
-            full_name=name,
-            email=email,
-            phone=phone,
-            password=hashed_password,
-            role=role,
-            is_active=True
-        )
-
-        db.session.add(user)
         db.session.commit()
 
-        print(f"✔ {role.capitalize()} account created.")
+        print("Bootstrap completed successfully.")
+
+    # ==========================================================
+    # Departments
+    # ==========================================================
 
     @staticmethod
-    def bootstrap():
+    def seed_departments():
 
-        BootstrapService.create_user(
-            name="System Administrator",
+        departments = [
+            "ICT",
+            "Customer Care",
+            "Technical",
+            "Engineering",
+            "Installation",
+            "Quality Assurance",
+            "Finance",
+            "Stores",
+            "Management"
+        ]
+
+        for name in departments:
+
+            exists = Department.query.filter_by(
+                name=name
+            ).first()
+
+            if not exists:
+
+                db.session.add(
+                    Department(name=name)
+                )
+
+    # ==========================================================
+    # Complaint Categories
+    # ==========================================================
+
+    @staticmethod
+    def seed_categories():
+
+        categories = [
+            "Billing",
+            "Meter Fault",
+            "Power Outage",
+            "Installation",
+            "Voltage Fluctuation",
+            "Token Issue",
+            "Meter Replacement",
+            "Network Issue",
+            "General Complaint"
+        ]
+
+        for name in categories:
+
+            exists = Category.query.filter_by(
+                name=name
+            ).first()
+
+            if not exists:
+
+                db.session.add(
+                    Category(name=name)
+                )
+
+    # ==========================================================
+    # Complaint Priorities
+    # ==========================================================
+
+    @staticmethod
+    def seed_priorities():
+
+        priorities = [
+            "Low",
+            "Medium",
+            "High",
+            "Critical"
+        ]
+
+        for name in priorities:
+
+            exists = Priority.query.filter_by(
+                name=name
+            ).first()
+
+            if not exists:
+
+                db.session.add(
+                    Priority(name=name)
+                )
+
+    # ==========================================================
+    # Complaint Statuses
+    # ==========================================================
+
+    @staticmethod
+    def seed_statuses():
+
+        statuses = [
+            "Pending",
+            "Assigned",
+            "In Progress",
+            "Resolved",
+            "Closed",
+            "Escalated",
+            "Rejected"
+        ]
+
+        for name in statuses:
+
+            exists = ComplaintStatus.query.filter_by(
+                name=name
+            ).first()
+
+            if not exists:
+
+                db.session.add(
+                    ComplaintStatus(name=name)
+                )
+
+    # ==========================================================
+    # Default Administrator
+    # ==========================================================
+
+    @staticmethod
+    def seed_admin():
+
+        admin = User.query.filter_by(
+            email="admin@smartmeters.com"
+        ).first()
+
+        if admin:
+            return
+
+        password = bcrypt.generate_password_hash(
+            "admin123"
+        ).decode("utf-8")
+
+        admin = User(
+            full_name="System Administrator",
             email="admin@smartmeters.com",
-            phone="08000000001",
-            password="admin123",
+            phone="08000000000",
+            password=password,
             role=UserRole.ADMIN
         )
 
-        BootstrapService.create_user(
-            name="Complaint Staff",
-            email="staff@smartmeters.com",
-            phone="08000000002",
-            password="staff123",
-            role=UserRole.STAFF
-        )
-
-        BootstrapService.create_user(
-            name="Complaint Engineer",
-            email="engineer@smartmeters.com",
-            phone="08000000003",
-            password="engineer123",
-            role=UserRole.ENGINEER
-        )
-
-        BootstrapService.create_user(
-            name="Complaint Supervisor",
-            email="supervisor@smartmeters.com",
-            phone="08000000004",
-            password="supervisor123",
-            role=UserRole.SUPERVISOR
-        )
+        db.session.add(admin)

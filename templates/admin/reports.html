@@ -10,7 +10,11 @@ Complaint Reports
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <h2>Complaint Reports & Analytics</h2>
+        <h2>
+
+            Complaint Reports & Analytics
+
+        </h2>
 
         <a href="{{ url_for('admin.dashboard') }}"
            class="btn btn-secondary">
@@ -21,7 +25,109 @@ Complaint Reports
 
     </div>
 
-    <!-- Monthly Report -->
+    <!-- SUMMARY CARDS -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Monthly Records
+
+                    </h6>
+
+                    <h2>
+
+                        {{ monthly|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Priority Levels
+
+                    </h6>
+
+                    <h2>
+
+                        {{ priority|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Status Types
+
+                    </h6>
+
+                    <h2>
+
+                        {{ status|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Categories
+
+                    </h6>
+
+                    <h2>
+
+                        {{ categories|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MONTHLY REPORT -->
 
     <div class="card shadow mb-4">
 
@@ -89,8 +195,7 @@ Complaint Reports
 
     </div>
 
-
-    <!-- Priority Report -->
+    <!-- PRIORITY REPORT -->
 
     <div class="card shadow mb-4">
 
@@ -158,8 +263,7 @@ Complaint Reports
 
     </div>
 
-
-    <!-- Status Report -->
+    <!-- STATUS REPORT -->
 
     <div class="card shadow mb-4">
 
@@ -226,11 +330,97 @@ Complaint Reports
         </div>
 
     </div>
+    <!-- CATEGORY REPORT -->
 
+    <div class="card shadow mb-4">
 
-    <!-- Charts -->
+        <div class="card-header bg-info text-white">
+
+            <h5 class="mb-0">
+
+                Complaints by Category
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if categories %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Category</th>
+
+                            <th>Total</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for row in categories %}
+
+                        <tr>
+
+                            <td>{{ row.name }}</td>
+
+                            <td>{{ row.total }}</td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info">
+
+                No category report available.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- CHARTS -->
 
     <div class="row">
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white">
+
+                    Monthly Complaints Trend
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="monthlyChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
 
         <div class="col-lg-6 mb-4">
 
@@ -252,13 +442,17 @@ Complaint Reports
 
         </div>
 
+    </div>
+
+    <div class="row">
+
         <div class="col-lg-6 mb-4">
 
             <div class="card shadow">
 
                 <div class="card-header bg-dark text-white">
 
-                    Status Distribution
+                    Complaint Status
 
                 </div>
 
@@ -272,16 +466,53 @@ Complaint Reports
 
         </div>
 
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white">
+
+                    Complaint Categories
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="categoryChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
 
-
-<!-- Chart.js -->
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+
+const monthlyLabels = [
+
+{% for row in monthly %}
+
+"{{ row.month }}",
+
+{% endfor %}
+
+];
+
+const monthlyData = [
+
+{% for row in monthly %}
+
+{{ row.total }},
+
+{% endfor %}
+
+];
 
 const priorityLabels = [
 
@@ -323,6 +554,80 @@ const statusData = [
 
 ];
 
+const categoryLabels = [
+
+{% for row in categories %}
+
+"{{ row.name }}",
+
+{% endfor %}
+
+];
+
+const categoryData = [
+
+{% for row in categories %}
+
+{{ row.total }},
+
+{% endfor %}
+
+];
+
+// Monthly Trend
+
+new Chart(
+
+document.getElementById("monthlyChart"),
+
+{
+
+type: "line",
+
+data: {
+
+labels: monthlyLabels,
+
+datasets: [
+
+{
+
+label: "Complaints",
+
+data: monthlyData,
+
+fill: false,
+
+tension: 0.3
+
+}
+
+]
+
+},
+
+options: {
+
+responsive: true,
+
+plugins: {
+
+legend: {
+
+display: true
+
+}
+
+}
+
+}
+
+}
+
+);
+
+// Priority Distribution
+
 new Chart(
 
 document.getElementById("priorityChart"),
@@ -345,11 +650,19 @@ data: priorityData
 
 ]
 
+},
+
+options: {
+
+responsive: true
+
 }
 
 }
 
 );
+
+// Status Distribution
 
 new Chart(
 
@@ -374,6 +687,58 @@ data: statusData
 }
 
 ]
+
+},
+
+options: {
+
+responsive: true,
+
+scales: {
+
+y: {
+
+beginAtZero: true
+
+}
+
+}
+
+}
+
+}
+
+);
+
+// Category Distribution
+
+new Chart(
+
+document.getElementById("categoryChart"),
+
+{
+
+type: "doughnut",
+
+data: {
+
+labels: categoryLabels,
+
+datasets: [
+
+{
+
+data: categoryData
+
+}
+
+]
+
+},
+
+options: {
+
+responsive: true
 
 }
 

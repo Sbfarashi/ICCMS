@@ -1,0 +1,332 @@
+{% extends "base.html" %}
+
+{% block title %}Field Visit{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>
+
+                <i class="fas fa-map-marker-alt text-success"></i>
+
+                Field Visit Report
+
+            </h2>
+
+            <small class="text-muted">
+
+                Complaint No:
+                {{ complaint.complaint_number }}
+
+            </small>
+
+        </div>
+
+        <a href="{{ url_for('engineer.complaint_details',
+                            complaint_id=complaint.id) }}"
+           class="btn btn-secondary">
+
+            <i class="fas fa-arrow-left"></i>
+
+            Back
+
+        </a>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+
+            Record Field Visit
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST"
+                  enctype="multipart/form-data">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Visit Date
+
+                        </label>
+
+                        <input
+                            type="date"
+                            name="visit_date"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Arrival Time
+
+                        </label>
+
+                        <input
+                            type="time"
+                            name="arrival_time"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Departure Time
+
+                        </label>
+
+                        <input
+                            type="time"
+                            name="departure_time"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Meter Replaced?
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="meter_replaced">
+
+                            <option value="No">
+
+                                No
+
+                            </option>
+
+                            <option value="Yes">
+
+                                Yes
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Observations
+
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        rows="4"
+                        name="observations"
+                        required></textarea>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Root Cause
+
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        rows="4"
+                        name="root_cause"
+                        required></textarea>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Work Done
+
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        rows="4"
+                        name="work_done"
+                        required></textarea>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Materials Used
+
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        rows="3"
+                        name="materials_used"></textarea>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Old Meter Number
+
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="old_meter_number">
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            New Meter Number
+
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="new_meter_number">
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Recommendation
+
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        rows="4"
+                        name="recommendation"></textarea>
+
+                </div>
+
+                <hr>
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+
+                            Before Photo
+
+                        </label>
+
+                        <input
+                            type="file"
+                            class="form-control"
+                            name="before_photo"
+                            accept="image/*">
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+
+                            After Photo
+
+                        </label>
+
+                        <input
+                            type="file"
+                            class="form-control"
+                            name="after_photo"
+                            accept="image/*">
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+
+                            Customer Signature
+
+                        </label>
+
+                        <input
+                            type="file"
+                            class="form-control"
+                            name="customer_signature"
+                            accept="image/*">
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <a href="{{ url_for('engineer.complaint_details',
+                                        complaint_id=complaint.id) }}"
+                       class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="fas fa-save"></i>
+
+                        Save Field Visit
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

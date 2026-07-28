@@ -1,0 +1,748 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Complaint Details{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- ====================================== -->
+    <!-- Header -->
+    <!-- ====================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="fas fa-ticket-alt text-primary me-2"></i>
+
+                Complaint Details
+
+            </h2>
+
+            <small class="text-muted">
+
+                {{ complaint.complaint_number }}
+
+            </small>
+
+        </div>
+
+        <div>
+
+            <a href="{{ url_for('staff.complaints') }}"
+               class="btn btn-secondary">
+
+                <i class="fas fa-arrow-left me-2"></i>
+
+                Back to Complaints
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <!-- ====================================== -->
+        <!-- Complaint Information -->
+        <!-- ====================================== -->
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        <i class="fas fa-info-circle text-primary me-2"></i>
+
+                        Complaint Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Complaint Number</strong>
+
+                            <p class="mb-0">
+
+                                {{ complaint.complaint_number }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Meter Number</strong>
+
+                            <p class="mb-0">
+
+                                {{ complaint.meter_number }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Customer</strong>
+
+                            <p class="mb-0">
+
+                                {{ complaint.customer.full_name }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Email</strong>
+
+                            <p class="mb-0">
+
+                                {{ complaint.customer.email }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Phone Number</strong>
+
+                            <p class="mb-0">
+
+                                {{ complaint.customer.phone }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Category</strong>
+
+                            <p class="mb-0">
+
+                                {{ complaint.category.name }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Priority</strong>
+
+                            <p class="mb-0">
+
+                                {% if complaint.priority == "Critical" %}
+
+                                    <span class="badge bg-danger">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% elif complaint.priority == "High" %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% elif complaint.priority == "Medium" %}
+
+                                    <span class="badge bg-primary">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-success">
+
+                                        {{ complaint.priority }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Status</strong>
+
+                            <p class="mb-0">
+
+                                {% if complaint.status == "Pending" %}
+
+                                    <span class="badge bg-secondary">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% elif complaint.status == "Assigned" %}
+
+                                    <span class="badge bg-primary">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% elif complaint.status == "In Progress" %}
+
+                                    <span class="badge bg-info">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% elif complaint.status == "Resolved" %}
+
+                                    <span class="badge bg-success">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% elif complaint.status == "Closed" %}
+
+                                    <span class="badge bg-dark">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-light text-dark">
+
+                                        {{ complaint.status }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Location</strong>
+
+                            <p class="mb-0">
+
+                                {{ complaint.location or "Not Provided" }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Date Submitted</strong>
+
+                            <p class="mb-0">
+
+                                {{ complaint.created_at.strftime("%d %B %Y %I:%M %p") }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <h6 class="fw-bold">
+
+                        Complaint Description
+
+                    </h6>
+
+                    <div class="alert alert-light">
+
+                        {{ complaint.description }}
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- ====================================== -->
+            <!-- Complaint Activity Timeline -->
+            <!-- ====================================== -->
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                    <h5 class="mb-0">
+
+                        <i class="fas fa-history text-primary me-2"></i>
+
+                        Complaint Activity Timeline
+
+                    </h5>
+
+                    <span class="badge bg-primary">
+
+                        {{ history|length }} Activities
+
+                    </span>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if history %}
+
+                        {% for item in history %}
+
+                        <div class="border-start border-4 border-primary ps-4 pb-4 mb-4">
+
+                            <div class="d-flex justify-content-between align-items-start flex-wrap">
+
+                                <div>
+
+                                    <h6 class="fw-bold mb-1">
+
+                                        {{ item.action }}
+
+                                    </h6>
+
+                                    <small class="text-muted">
+
+                                        <i class="fas fa-clock me-1"></i>
+
+                                        {{ item.created_at.strftime("%d %b %Y %I:%M %p") }}
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <div class="mt-2">
+
+                                <small class="text-muted">
+
+                                    <i class="fas fa-user me-1"></i>
+
+                                    Performed By:
+
+                                </small>
+
+                                <strong>
+
+                                    {% if item.user %}
+
+                                        {{ item.user.full_name }}
+
+                                    {% else %}
+
+                                        System
+
+                                    {% endif %}
+
+                                </strong>
+
+                            </div>
+
+                            {% if item.previous_status or item.new_status %}
+
+                            <div class="mt-3">
+
+                                <small class="text-muted">
+
+                                    Status Change
+
+                                </small>
+
+                                <div class="mt-2">
+
+                                    <span class="badge bg-secondary">
+
+                                        {{ item.previous_status or "N/A" }}
+
+                                    </span>
+
+                                    <i class="fas fa-arrow-right mx-2"></i>
+
+                                    <span class="badge bg-success">
+
+                                        {{ item.new_status or "N/A" }}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            {% endif %}
+
+                            {% if item.remarks %}
+
+                            <div class="mt-3">
+
+                                <small class="text-muted">
+
+                                    Remarks
+
+                                </small>
+
+                                <div class="alert alert-light mt-2 mb-0">
+
+                                    {{ item.remarks }}
+
+                                </div>
+
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        {% if not loop.last %}
+
+                            <hr>
+
+                        {% endif %}
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <div class="text-center py-5">
+
+                            <i class="fas fa-history fa-3x text-muted mb-3"></i>
+
+                            <h5 class="text-muted">
+
+                                No complaint activity recorded.
+
+                            </h5>
+
+                            <p class="text-muted mb-0">
+
+                                Complaint assignments, status updates and resolutions will appear here.
+
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ====================================== -->
+        <!-- Right Sidebar -->
+        <!-- ====================================== -->
+
+        <div class="col-lg-4">
+
+            <!-- Quick Actions -->
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        <i class="fas fa-bolt text-warning me-2"></i>
+
+                        Quick Actions
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body d-grid gap-3">
+
+                    <a href="{{ url_for('staff.assign_engineer',
+                                        complaint_id=complaint.id) }}"
+                       class="btn btn-success">
+
+                        <i class="fas fa-user-plus me-2"></i>
+
+                        Assign Engineer
+
+                    </a>
+
+                    <a href="{{ url_for('staff.update_status',
+                                        complaint_id=complaint.id) }}"
+                       class="btn btn-warning">
+
+                        <i class="fas fa-edit me-2"></i>
+
+                        Update Status
+
+                    </a>
+
+                    <a href="{{ url_for('staff.escalation',
+                                        complaint_id=complaint.id) }}"
+                       class="btn btn-danger">
+
+                        <i class="fas fa-level-up-alt me-2"></i>
+
+                        Escalate Complaint
+
+                    </a>
+
+                </div>
+
+            </div>
+            <!-- Assignment -->
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        <i class="fas fa-user-check text-success me-2"></i>
+
+                        Assignment Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if complaint.staff %}
+
+                        <div class="mb-3">
+
+                            <strong>Assigned Engineer</strong>
+
+                            <p class="mb-1">
+
+                                {{ complaint.staff.full_name }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <strong>Email</strong>
+
+                            <p class="mb-1">
+
+                                {{ complaint.staff.email }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <strong>Role</strong>
+
+                            <span class="badge bg-success">
+
+                                {{ complaint.staff.role|capitalize }}
+
+                            </span>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="alert alert-warning mb-0">
+
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+
+                            No engineer has been assigned to this complaint.
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <!-- Complaint Summary -->
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        <i class="fas fa-chart-pie text-info me-2"></i>
+
+                        Complaint Summary
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>Priority</span>
+
+                        <span>
+
+                            {% if complaint.priority == "Critical" %}
+
+                                <span class="badge bg-danger">
+
+                                    Critical
+
+                                </span>
+
+                            {% elif complaint.priority == "High" %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    High
+
+                                </span>
+
+                            {% elif complaint.priority == "Medium" %}
+
+                                <span class="badge bg-primary">
+
+                                    Medium
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-success">
+
+                                    Low
+
+                                </span>
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>Status</span>
+
+                        <span>
+
+                            {% if complaint.status == "Pending" %}
+
+                                <span class="badge bg-secondary">
+
+                                    Pending
+
+                                </span>
+
+                            {% elif complaint.status == "Assigned" %}
+
+                                <span class="badge bg-primary">
+
+                                    Assigned
+
+                                </span>
+
+                            {% elif complaint.status == "In Progress" %}
+
+                                <span class="badge bg-info">
+
+                                    In Progress
+
+                                </span>
+
+                            {% elif complaint.status == "Resolved" %}
+
+                                <span class="badge bg-success">
+
+                                    Resolved
+
+                                </span>
+
+                            {% elif complaint.status == "Closed" %}
+
+                                <span class="badge bg-dark">
+
+                                    Closed
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-light text-dark">
+
+                                    {{ complaint.status }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>Category</span>
+
+                        <strong>
+
+                            {{ complaint.category.name }}
+
+                        </strong>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+
+                        <span>Submitted</span>
+
+                        <strong>
+
+                            {{ complaint.created_at.strftime("%d %b %Y") }}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,75 +1,87 @@
-/*=========================================================
- RESPONSIVE
-=========================================================*/
+/* ==========================================
+   RESPONSIVE
+========================================== */
 
 @media(max-width:1200px){
 
-.statistics{
+    .stats-grid{
 
-grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
 
-}
-
-.quick-actions{
-
-grid-template-columns:repeat(2,1fr);
-
-}
-
-.chart-grid{
-
-grid-template-columns:1fr;
-
-}
+    }
 
 }
 
 @media(max-width:992px){
 
-.sidebar{
+    .sidebar{
 
-left:-290px;
+        width:240px;
 
-}
+    }
 
-.main{
+    .main{
 
-margin-left:0;
+        margin-left:0;
 
-}
+        width:100%;
 
-.topbar{
+    }
 
-padding:20px;
+    .content{
 
-}
+        padding:20px;
+
+    }
 
 }
 
 @media(max-width:768px){
 
-.statistics{
+    .stats-grid{
 
-grid-template-columns:1fr;
+        grid-template-columns:1fr;
+
+    }
+
+    .quick-actions{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .table{
+
+        font-size:14px;
+
+    }
+
+    .dashboard-header h2{
+
+        font-size:24px;
+
+    }
 
 }
 
-.quick-actions{
+@media(max-width:576px){
 
-grid-template-columns:1fr;
+    .content{
 
-}
+        padding:15px;
 
-.content{
+    }
 
-padding:20px;
+    .card{
 
-}
+        border-radius:10px;
 
-.search-box{
+    }
 
-display:none;
+    .btn{
 
-}
+        width:100%;
+
+    }
 
 }
